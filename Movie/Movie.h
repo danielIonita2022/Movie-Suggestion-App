@@ -18,7 +18,9 @@ struct Movie
     std::string m_listedIn;
     std::string m_description;
 
+    static auto CreateTable();
     static void MakeDatabase();
+ 
 };
 
 
