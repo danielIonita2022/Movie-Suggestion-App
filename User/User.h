@@ -66,6 +66,8 @@ public:
 		return storage;
 	}
 
+	void UpdateDatabase();
+
 	~User() = default;
 
 private:

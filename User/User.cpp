@@ -146,5 +146,9 @@ uint16_t User::GetMovieSeries() const
 	return m_movieSeries;
 }
 
-
+void User::UpdateDatabase()
+{
+	auto storage = CreateTable();
+	storage.replace(*this);
+}
 

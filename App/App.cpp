@@ -89,8 +89,10 @@ App::App()
 		std::cout << "We are done! Thank you! " << '\n';
 		std::cout << '\n';
 
+
 		User newUser(firstName, lastName, userName, password, favMovie, favActor, drama, action, SF, comedy, thriller, fantasy, animation, horror,
 			romance, mistery, adventure, year1, year2, movieSeries);
+		newUser.UpdateDatabase();
 		break;
 	}
 	case 1:
