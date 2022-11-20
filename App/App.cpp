@@ -63,6 +63,31 @@ App::App()
 		std::cout << "-adventure" << '\n';
 		std::cin >> adventure;
 
+		bool releaseY;
+		std::cout << "4. Does the release year matter to you? " << '\n';
+		std::cout << "Please select 0 if it doesn't and 1 if it does." << '\n';
+		std::cin >> releaseY;
+		if (releaseY == 1)
+		{
+			std::cout << "Please introduce years between 1960 and 2022." << '\n';
+			std::cout << "I like movies from " << '\n';
+			std::cin >> year1;
+			std::cout << "to " << '\n';
+			std::cin >> year2;
+		}
+		else
+		{
+			year1 = 0;
+			year2 = 0;
+		}
+
+		std::cout << "5. Which one do you prefer more? Movies or TV-Shows? " << '\n';
+		std::cout << "Please press 0 if you prefer MOVIES, press 1 if you prefer TV-SHOWS or press 2 if you prefer BOTH. " << '\n';
+		std::cin >> movieSeries;
+
+		std::cout << '\n';
+		std::cout << "We are done! Thank you! " << '\n';
+		std::cout << '\n';
 
 		User newUser(firstName, lastName, userName, password, favMovie, favActor, drama, action, SF, comedy, thriller, fantasy, animation, horror,
 			romance, mistery, adventure, year1, year2, movieSeries);
