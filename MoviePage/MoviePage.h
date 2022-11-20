@@ -12,6 +12,6 @@ private:
 public:
 
 	MoviePage(App* app);
-	void ShowDetails();
+	void ShowDetails(const std::string& title);
 	std::vector<Movie> getMovie(const std::string& name);
 };
