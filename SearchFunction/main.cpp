@@ -1,16 +1,13 @@
-#include<iostream>
-#include<vector>
-#include<string>
-#include <fstream>
-#include"Search_function.cpp"
+#include "MoviePage.h"
+#include"Search_function.h"
 int main()
 {
-	std::vector<std::string>elements;
+	App* app = new App;
+	MoviePage moviePage(app);
+	std::cout << "The word we're searching is: ";
 	std::string word;
-	std::ifstream myreadfile("elements.txt");
-	VectorReading(myreadfile, elements);
-	std::cout << "The word we're searching is:";
-	std::cin >> word;
-	WordSearching(elements, word);
+	std::getline(std::cin >> std::ws, word);
+	WordSearching(app, word);
+}
 	return 0;
 }
