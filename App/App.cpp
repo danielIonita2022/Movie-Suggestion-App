@@ -12,21 +12,60 @@ App::App()
 	uint16_t character;
 	//if 0 then follows Register, if 1 then follows LogIn, in any other case throw ERROR
 	std::cin >> character;
+	std::cin.get();
 	std::cout << '\n';
 	switch (character)
 	{
 	case 0:
 	{
 		//register
-		std::string firstName, lastName, userName, password;
+		std::string firstName, lastName, userName, password, favMovie, favActor;
+		bool drama, action, SF, comedy, thriller, fantasy, animation, horror, romance, mistery, adventure;
+		uint16_t year1, year2, movieSeries;
 		std::cout << "You are now on your REGISTER page!" << '\n';
 		std::cout << "Enter your first name:" << '\n';
-		std::cin >> firstName;
+		std::getline(std::cin, firstName);
 		std::cout << "Enter your last name:" << '\n';
-		std::cin >> lastName;
+		std::getline(std::cin, lastName);
 		std::cout << "Enter the username you want to use on this app:" << '\n';
-		std::cin >> userName;
-		User newUser(firstName, lastName, userName, password);
+		std::getline(std::cin, userName);
+		std::cout << "Enter the password you want to use on this app:" << '\n';
+		std::getline(std::cin, password);
+		std::cout << '\n';
+		std::cout << "To help us finding the best recomandations for you please answer the following quiestions:" << '\n';
+		std::cout << "1. What is your favourite movie?" << '\n';
+		std::getline (std::cin, favMovie);
+		std::cout << "2. Who is your favourite actor/actress?" << '\n';
+		std::getline(std::cin, favActor);
+
+		std::cout << "3. Which one of these do you prefer? " << '\n';
+		std::cout << "Please select 0 if you don't like this genre and 1 if you do." << '\n';
+		std::cout << "-drama" << '\n';
+		std::cin >> drama;
+		std::cout << "-action" << '\n';
+		std::cin >> action;
+		std::cout << "-SF" << '\n';
+		std::cin >> SF;
+		std::cout << "-comedy" << '\n';
+		std::cin >> comedy;
+		std::cout << "-thriller" << '\n';
+		std::cin >> thriller;
+		std::cout << "-fantasy" << '\n';
+		std::cin >> fantasy;
+		std::cout << "-animation" << '\n';
+		std::cin >> animation;
+		std::cout << "-horror" << '\n';
+		std::cin >> horror;
+		std::cout << "-romance" << '\n';
+		std::cin >> romance;
+		std::cout << "-mistery" << '\n';
+		std::cin >> mistery;
+		std::cout << "-adventure" << '\n';
+		std::cin >> adventure;
+
+
+		User newUser(firstName, lastName, userName, password, favMovie, favActor, drama, action, SF, comedy, thriller, fantasy, animation, horror,
+			romance, mistery, adventure, year1, year2, movieSeries);
 		break;
 	}
 	case 1:
@@ -34,9 +73,9 @@ App::App()
 		std::cout << "You are now on your LOG IN page!" << '\n';
 		std::string UserName, Password;
 		std::cout << "Enter your username:" << '\n';
-		std::cin >> UserName;
+		std::getline(std::cin, UserName);
 		std::cout << "Enter your password:" << '\n';
-		std::cin >> Password;
+		std::getline(std::cin, Password);
 		LogIn Person1(UserName, Password);
 		break;
 	}
