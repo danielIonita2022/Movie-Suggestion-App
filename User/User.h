@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-
+#include <sqlite_orm/sqlite_orm.h>
+#pragma warning(disable : 4996)
 
 class User
 {
-	//e structura pe care am folosit o si la lab si compilatorul ia lucrurile de jos in sus
 public:
 
 	User(std::string firstName, std::string lastName, std::string userName, std::string password, std::string favMovie, std::string favActor,
@@ -36,6 +36,35 @@ public:
 	uint16_t GetYear2() const;
 	uint16_t GetMovieSeries() const;
 
+	static auto CreateTable()
+	{
+		auto storage = sqlite_orm::make_storage(
+			{ "users.db" },
+			sqlite_orm::make_table("Users",
+				sqlite_orm::make_column("userName", &User::m_userName, sqlite_orm::primary_key()),
+				sqlite_orm::make_column("firstName", &User::m_firstName),
+				sqlite_orm::make_column("lastName", &User::m_lastName),
+				sqlite_orm::make_column("password", &User::m_password),
+				sqlite_orm::make_column("favMovie", &User::m_favMovie),
+				sqlite_orm::make_column("favActor", &User::m_favActor),
+				sqlite_orm::make_column("drama", &User::m_drama),
+				sqlite_orm::make_column("action", &User::m_action),
+				sqlite_orm::make_column("SF", &User::m_SF),
+				sqlite_orm::make_column("comedy", &User::m_comedy),
+				sqlite_orm::make_column("thriller", &User::m_thriller),
+				sqlite_orm::make_column("fantasy", &User::m_fantasy),
+				sqlite_orm::make_column("animation", &User::m_animation),
+				sqlite_orm::make_column("horror", &User::m_horror),
+				sqlite_orm::make_column("romance", &User::m_romance),
+				sqlite_orm::make_column("mistery", &User::m_mistery),
+				sqlite_orm::make_column("adventure", &User::m_adventure),
+				sqlite_orm::make_column("year1", &User::m_year1),
+				sqlite_orm::make_column("year2", &User::m_year2),
+				sqlite_orm::make_column("movieSeries", &User::m_movieSeries)
+			));
+		storage.sync_schema();
+		return storage;
+	}
 
 	~User() = default;
 
