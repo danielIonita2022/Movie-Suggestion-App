@@ -1,10 +1,9 @@
 #include "App.h"
 #include <iostream>
-#include<cstdint>
+#include <cstdint>
 
 App::App()
 {
-
 	std::cout << "WELCOME TO OUR MOVIE RECOMANDATION PAGE!" << '\n';
 	std::cout << '\n';
 	std::cout << "Please press key 0 if you want to REGISTER else please press key 1 if you want to LOG IN your account:" << '\n';
@@ -47,4 +46,9 @@ App::App()
 		break;
 	}
 	}
+}
+
+StorageMovies App::getStorage()
+{
+	return storageMovies;
 }
