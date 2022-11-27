@@ -1,6 +1,8 @@
 #pragma once
 #include "User.h"
-#include<string>
+#include "Storages.h"
+#include <string>
+#include <sqlite_orm/sqlite_orm.h>
 
 class LogIn
 {
@@ -16,8 +18,9 @@ public:
 	bool isValid(); 
 	//check if the first name, last name, username and password are valid, else calls destructor
 
-private:
+	User LogUser();
 
+private:
 	std::string m_LogInUName;
 	std::string m_LogInPassw;
  
