@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <sqlite_orm/sqlite_orm.h>
 #pragma warning(disable : 4996)
@@ -10,6 +11,8 @@ public:
 	User(std::string firstName, std::string lastName, std::string userName, std::string password, std::string favMovie, std::string favActor,
 		bool drama, bool action, bool SF, bool comedy, bool thriller, bool fantasy, bool animation, bool horror, bool romance, bool mistery, bool adventure,
 		uint16_t year1, uint16_t year2, uint16_t movieSeries);
+
+	User() = default;
 
 	std::string GetFirstName() const;
 	void SetFirstName(const std::string& firstName);
@@ -68,12 +71,15 @@ public:
 
 	void UpdateDatabase();
 
+	void UserPage();
+
 	~User() = default;
 
 private:
 
 	std::string m_firstName, m_lastName, m_userName, m_password, m_favMovie,m_favActor;
-	bool m_drama, m_action, m_SF, m_comedy, m_thriller, m_fantasy, m_animation, m_horror, m_romance, m_mistery, m_adventure;
+	bool m_drama, m_action, m_SF,
+		m_comedy, m_thriller, m_fantasy, m_animation, m_horror, m_romance, m_mistery, m_adventure;
 	uint16_t m_year1, m_year2, m_movieSeries;
 
 };
