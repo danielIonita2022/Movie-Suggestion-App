@@ -34,7 +34,7 @@ App::App()
 		std::cout << '\n';
 		std::cout << "To help us finding the best recomandations for you please answer the following quiestions:" << '\n';
 		std::cout << "1. What is your favourite movie?" << '\n';
-		std::getline (std::cin, favMovie);
+		std::getline(std::cin, favMovie);
 		std::cout << "2. Who is your favourite actor/actress?" << '\n';
 		std::getline(std::cin, favActor);
 
@@ -104,8 +104,8 @@ App::App()
 		std::cout << "Enter your password:" << '\n';
 		std::getline(std::cin, Password);
 		LogIn logger(UserName, Password);
-		//TODO: CHECK IF USER IS VALID BEFORE SETTING AS CURRENT
-		setCurrentUser(logger);
+		if (logger.isValid() == 0) 
+			std::cout << "This User doesn`t exist!\n";
 		break;
 	}
 	default:
@@ -115,12 +115,14 @@ App::App()
 	}
 	}
 }
-void App::setCurrentUser(LogIn& logger)
+
+StorageMovies App::getStorage()
 {
-	m_currentUser = logger.LogUser();
+	return storageMovies;
 }
 
-User App::getCurrentUser() const
+StorageUsers App::getStorageU()
 {
-	return m_currentUser;
+	return storageUsers;
 }
+
