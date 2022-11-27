@@ -24,6 +24,7 @@ User::User(std::string firstName, std::string lastName, std::string userName, st
 	m_year2(year2),
 	m_movieSeries(movieSeries)
 {
+	UpdateDatabase();
 }
 
 std::string User::GetFirstName() const
@@ -150,5 +151,79 @@ void User::UpdateDatabase()
 {
 	auto storage = CreateTable();
 	storage.replace(*this);
+}
+
+void User::UserPage()
+{
+	std::cout << "USER PAGE!\n";
+	std::cout << "User name: " << m_userName << '\n';
+	std::cout << "First name: " << m_firstName << '\n';
+	std::cout << "Last name: " << m_lastName << '\n';
+	//password button
+	std::cout << "Favorite movie: " << m_favMovie << '\n';
+	std::cout << "Favorite actor: " << m_favActor << '\n';
+	std::cout << "Favorite movie genres: ";
+	if (m_action)
+	{
+		std::cout << "action ";
+	}
+	if (m_adventure)
+	{
+		std::cout << "adventure ";
+	}
+	if (m_animation)
+	{
+		std::cout << "animation ";
+	}
+	if (m_comedy)
+	{
+		std::cout << "comedy ";
+	}
+	if (m_drama)
+	{
+		std::cout << "drama ";
+	}
+	if (m_fantasy)
+	{
+		std::cout << "fantasy ";
+	}
+	if (m_horror)
+	{
+		std::cout << "horror ";
+	}
+	if (m_mistery)
+	{
+		std::cout << "mistery ";
+	}       
+	if (m_romance)
+	{
+		std::cout << "romance ";
+	}
+	if (m_SF)
+	{
+		std::cout << "SF ";
+	}
+	if (m_thriller)
+	{
+		std::cout << "thriller ";
+	}
+	std::cout << '\n';
+	if (m_year1 != 0 && m_year2 !=0)
+	{
+		std::cout << "Release date preference: " << m_year1 << " and " << m_year2 << '\n';
+	}
+	std::cout << "Likes: ";
+	if (m_movieSeries == 0)
+	{
+		std::cout << "movies \n";
+	}
+	if (m_movieSeries == 1)
+	{
+		std::cout << "tv-shows \n";
+	}
+	if (m_movieSeries == 2)
+	{
+		std::cout << "movies and tv-shows\n";
+	}
 }
 
