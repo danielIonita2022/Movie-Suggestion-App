@@ -1,8 +1,12 @@
 #pragma once
 #include "User.h"
-#include "Storages.h"
-#include <string>
+#include<string>
+#pragma once
+#pragma warning(disable : 4996)
 #include <sqlite_orm/sqlite_orm.h>
+#include "Storages.h"
+
+using StorageUsers = decltype(User::CreateTable());
 
 class LogIn
 {
@@ -15,14 +19,16 @@ public:
 
 	~LogIn() = default;
 
-	bool isValid(); 
-	//check if the first name, last name, username and password are valid, else calls destructor
 
-	User LogUser();
+	std::vector<User>LogUser();
+
+	bool isValid();
 
 private:
+
 	std::string m_LogInUName;
 	std::string m_LogInPassw;
- 
+	
+
 };
 
