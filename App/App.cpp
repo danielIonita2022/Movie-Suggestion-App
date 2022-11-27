@@ -103,7 +103,9 @@ App::App()
 		std::getline(std::cin, UserName);
 		std::cout << "Enter your password:" << '\n';
 		std::getline(std::cin, Password);
-		LogIn Person1(UserName, Password);
+		LogIn logger(UserName, Password);
+		//TODO: CHECK IF USER IS VALID BEFORE SETTING AS CURRENT
+		setCurrentUser(logger);
 		break;
 	}
 	default:
@@ -113,8 +115,12 @@ App::App()
 	}
 	}
 }
-
-StorageMovies App::getStorage()
+void App::setCurrentUser(LogIn& logger)
 {
-	return storageMovies;
+	m_currentUser = logger.LogUser();
+}
+
+User App::getCurrentUser() const
+{
+	return m_currentUser;
 }
