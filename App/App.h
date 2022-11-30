@@ -1,24 +1,16 @@
 #pragma once
 #include <iostream>
 #include "User.h"
-#include "LogIn.h"
 #include "Movie.h"
-
-
-using StorageMovies = decltype(Movie::CreateTable());
-using StorageUsers = decltype(User::CreateTable());
-
+#include "LogIn.h"
 class App
 {
-private:
-	const StorageMovies storageMovies = Movie::CreateTable();
-	const StorageUsers storageUsers = User::CreateTable();
 public:
-
 	App();
-	StorageMovies getStorage();
-	StorageUsers getStorageU();
-
+	void setCurrentUser(LogIn& logger);
+	User getCurrentUser() const;
 	~App() = default;
+private:
+	User m_currentUser;
 };
 

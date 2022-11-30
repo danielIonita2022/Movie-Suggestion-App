@@ -104,8 +104,7 @@ App::App()
 		std::cout << "Enter your password:" << '\n';
 		std::getline(std::cin, Password);
 		LogIn logger(UserName, Password);
-		if (logger.isValid() == 0) 
-			std::cout << "This User doesn`t exist!\n";
+		setCurrentUser(logger);
 		break;
 	}
 	default:
@@ -115,14 +114,12 @@ App::App()
 	}
 	}
 }
-
-StorageMovies App::getStorage()
+void App::setCurrentUser(LogIn& logger)
 {
-	return storageMovies;
+	m_currentUser = logger.LogUser();
 }
 
-StorageUsers App::getStorageU()
+User App::getCurrentUser() const
 {
-	return storageUsers;
+	return m_currentUser;
 }
-

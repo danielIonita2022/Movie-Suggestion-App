@@ -18,20 +18,16 @@ std::string LogIn::GetLogInPassw() const
 	return m_LogInPassw;
 }
 
-std::vector<User> LogIn::LogUser()
+User LogIn::LogUser()
 {
 	StorageUsers storage = Storages::getInstance()->getUserStorage();
-	auto currentUser = storage.get_all<User>(
-		where(is_equal(&User::GetUserName,m_LogInUName)and(is_equal(&User::GetPassword,m_LogInPassw)))
-		);
-	return currentUser;
-}
-
-bool LogIn::isValid()
-{
-	//std::vector<User> person = LogUser();
-	if (LogUser().size() != 0)
-		return 1;
-	else return 0;
+	if (storage.get_pointer<User>(m_LogInUName) != nullptr)
+	{
+		User currentUser = storage.get<User>(m_LogInUName);
+		if(currentUser.GetPassword() == m_LogInPassw)
+		return currentUser;
+		else throw std::exception("Invalid password!");
+	}
+	throw std::exception("User not found!");
 }
 
