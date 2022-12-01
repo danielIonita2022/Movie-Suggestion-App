@@ -7,11 +7,11 @@
 class MoviePage
 {
 private:
-	App* app;
-	std::vector<Movie> movie;
+	std::vector<Movie> m_movies;
 public:
 
-	MoviePage(App* app);
-	void ShowDetails(const std::string& title);
-	std::vector<Movie> getMovie(const std::string& name);
+	MoviePage();
+	void ShowDetails();
+	void ShowSimilar(Movie movie);
+	std::vector<Movie> getMovies(const std::string& name);
 };
