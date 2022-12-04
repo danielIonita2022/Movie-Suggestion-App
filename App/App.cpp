@@ -174,7 +174,41 @@ App::App()
 				std::cout << "The movie page does not exist! Please press [ 1 ] to search for another movie\n";
 				break;
 			}
-			
+			case 3:
+			{
+				logger.getCurrentUser().UserPage();
+				break;
+			}
+			case 4:
+			{
+				logger.getCurrentUser().ShowWishlist(logger.GetLogInUN());
+				break;
+			}
+			case 5:
+			{
+				if (OK == 1)
+				{
+					MoviePage movie(&logger);
+					movie.ShowSimilar(SearchedFilm[0]);
+				}
+				else
+					std::cout << "Recommandations do not exist! Please press [ 1 ] to search for another movie\n";
+				break;
+			}
+			case 6:
+			{
+				std::cout << "Log out";
+				delete& logger;
+				break;
+			}
+			default:
+			{
+				std::cout << "Wrong option / number! Please retry!\n";
+				break;
+			}
+
+
+
 			}
 		}
 	}
