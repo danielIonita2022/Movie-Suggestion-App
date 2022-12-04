@@ -22,8 +22,8 @@ public:
 private:
 	Storages();
 	static Storages* m_storagesInstance;
-	const StorageMovies storageMovies = Movie::CreateTable();
-	const StorageUsers storageUsers = User::CreateTable();
-	const StorageWishlists storageWishlists = Wishlist::CreateTable();
-	const StorageSeen storageSeen = Seen::CreateTable();
+	const StorageMovies m_storageMovies = Movie::CreateTable();
+	const StorageUsers m_storageUsers = User::CreateTable();
+	const StorageWishlists m_storageWishlists = Wishlist::CreateTable();
+	const StorageSeen m_storageSeen = Seen::CreateTable();
 };

@@ -8,11 +8,19 @@ Storages::Storages()
 }
 StorageMovies Storages::getMovieStorage() const
 {
-	return storageMovies;
+	return m_storageMovies;
 }
 StorageUsers Storages::getUserStorage() const
 {
-	return storageUsers;
+	return m_storageUsers;
+}
+StorageWishlists Storages::getWishlistStorage() const
+{
+	return m_storageWishlists;
+}
+StorageSeen Storages::getSeenStorage() const
+{
+	return m_storageSeen;
 }
 Storages* Storages::getInstance()
 {
