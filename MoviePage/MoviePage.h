@@ -8,11 +8,11 @@ class MoviePage
 {
 private:
 	std::vector<Movie> m_movies;
-	App* m_app;
+	LogIn* m_logger;
 public:
 
-	MoviePage(App* app);
+	MoviePage(LogIn* logger);
 	void ShowDetails();
 	void ShowSimilar(Movie movie);
-	std::vector<Movie> getMovies(const std::string& name);
+	std::vector<Movie> getMovies(const std::string& name, bool& ok);
 };

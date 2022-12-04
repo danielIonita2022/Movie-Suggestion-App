@@ -1,15 +1,17 @@
 #include "MoviePage.h"
 #include <regex>
-MoviePage::MoviePage(App* app):
-	m_app(app)
+MoviePage::MoviePage(LogIn* logger) :
+	m_logger(logger)
 {
 }
 void MoviePage::ShowDetails()
 {
-	std::cout << "Search a movie or TV-show by name: ";
+	std::cout << "Cautati un film sau serial dupa titlu: ";
 	std::string title;
 	std::getline(std::cin, title);
-	m_movies = getMovies(title);
+	//am modificat cu ok pt ca imi trb mie in meniu
+	bool ok;
+	m_movies = getMovies(title, ok);
 	for (const auto& movie : m_movies)
 	{
 		std::cout << '\n' << movie.m_type << '\n';
@@ -24,26 +26,6 @@ void MoviePage::ShowDetails()
 		std::cout << movie.m_listedIn << '\n';
 		std::cout << movie.m_description << '\n';
 	}
-	std::cout << "Have you seen this movie/TV-show?\n";
-	std::cout << "Press 1 for YES and 0 for NO.\n";
-	uint16_t character;
-	std::cin >> character;
-	if (character == 1)
-	{
-		Seen newSeen(-1, m_app->getCurrentUser().GetUserName(), title);
-	}
-	else
-	{
-		std::cout << "Do you want to add this movie to your Wishlist?\n";
-		std::cout << "Press 1 for YES and 0 for NO.\n";
-		uint16_t character;
-		std::cin >> character;
-		if (character == 1)
-		{
-			Wishlist newWish(-1,m_app->getCurrentUser().GetUserName(),title);
-		}
-	}
-	
 }
 int countWordsRegex(const std::string& name)
 {
@@ -64,7 +46,7 @@ void deleteLastWord(std::string& name)
 {
 	name.erase(findPosOfLastWord(name), name.end());
 }
-std::vector<Movie> MoviePage::getMovies(const std::string& name)
+std::vector<Movie> MoviePage::getMovies(const std::string& name, bool& ok)
 {
 	auto table = Storages::getInstance()->getMovieStorage();
 	std::vector<Movie> allMovies;
@@ -79,7 +61,10 @@ std::vector<Movie> MoviePage::getMovies(const std::string& name)
 		for (int count = 1; count < nrWords; ++count)
 		{
 			deleteLastWord(incompleteName);
-			if (incompleteName.empty()) break;
+			if (incompleteName.empty())
+			{
+				break;
+			}
 			std::vector <Movie> movie = table.get_all<Movie>(sqlite_orm::where
 			(sqlite_orm::like((&Movie::m_title), incompleteName)));
 			if (!movie.empty())
@@ -89,6 +74,28 @@ std::vector<Movie> MoviePage::getMovies(const std::string& name)
 		}
 	}
 	if (allMovies.empty())
+	{
 		std::cout << "The search query returned no results!\n";
+		ok = 0;
+	}
+	ok = 1;
 	return allMovies;
+}
+void MoviePage::ShowSimilar(Movie movie)
+{
+	int number = 10;
+	auto table = Storages::getInstance()->getMovieStorage();
+	std::vector<Movie> allMovies;
+	allMovies = table.get_all<Movie>(sqlite_orm::where
+	(sqlite_orm::like((&Movie::m_type), movie.m_type)));
+	std::cout << "The recomandations similar with the type are: \n";
+	for (const auto& film : allMovies)
+	{
+		if (number > 0)
+		{
+			std::cout << film.m_title << '\n';
+		}
+		else break;
+		number--;
+	}
 }
