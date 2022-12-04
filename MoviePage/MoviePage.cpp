@@ -1,11 +1,12 @@
 #include "MoviePage.h"
 #include <regex>
-MoviePage::MoviePage()
+MoviePage::MoviePage(App* app):
+	m_app(app)
 {
 }
 void MoviePage::ShowDetails()
 {
-	std::cout << "Cautati un film sau serial dupa titlu: ";
+	std::cout << "Search a movie or TV-show by name: ";
 	std::string title;
 	std::getline(std::cin, title);
 	m_movies = getMovies(title);
@@ -23,6 +24,26 @@ void MoviePage::ShowDetails()
 		std::cout << movie.m_listedIn << '\n';
 		std::cout << movie.m_description << '\n';
 	}
+	std::cout << "Have you seen this movie/TV-show?\n";
+	std::cout << "Press 1 for YES and 0 for NO.\n";
+	uint16_t character;
+	std::cin >> character;
+	if (character == 1)
+	{
+		Seen newSeen(-1, m_app->getCurrentUser().GetUserName(), title);
+	}
+	else
+	{
+		std::cout << "Do you want to add this movie to your Wishlist?\n";
+		std::cout << "Press 1 for YES and 0 for NO.\n";
+		uint16_t character;
+		std::cin >> character;
+		if (character == 1)
+		{
+			Wishlist newWish(-1,m_app->getCurrentUser().GetUserName(),title);
+		}
+	}
+	
 }
 int countWordsRegex(const std::string& name)
 {
