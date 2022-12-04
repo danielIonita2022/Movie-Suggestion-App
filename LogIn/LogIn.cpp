@@ -2,7 +2,7 @@
 
 using namespace sqlite_orm;
 
-LogIn::LogIn(std::string LogInUName, std::string LogInPassw):
+LogIn::LogIn(const std::string& LogInUName, const std::string& LogInPassw):
 m_LogInUName(LogInUName),
 m_LogInPassw(LogInPassw)
 {
@@ -13,9 +13,19 @@ std::string LogIn::GetLogInUN() const
 	return m_LogInUName;
 }
 
+void LogIn::SetLogInUN(const std::string& userName)
+{
+	m_LogInUName = userName;
+}
+
 std::string LogIn::GetLogInPassw() const
 {
 	return m_LogInPassw;
+}
+
+void LogIn::SetLogInPassw(const std::string& password)
+{
+	m_LogInPassw = password;
 }
 
 User LogIn::LogUser()
@@ -31,3 +41,12 @@ User LogIn::LogUser()
 	throw std::exception("User not found!");
 }
 
+void LogIn::setCurrentUser()
+{
+	m_currentUser = this->LogUser();
+}
+
+User LogIn::getCurrentUser() const
+{
+	return m_currentUser;
+}

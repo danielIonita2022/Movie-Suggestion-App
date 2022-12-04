@@ -9,10 +9,15 @@
 class LogIn
 {
 public:
-	LogIn(std::string LogInUName, std::string LogInPassw);
+	LogIn()=default;
+	LogIn(const std::string& LogInUName, const std::string& LogInPassw);
 
 	std::string GetLogInUN() const;
+	void SetLogInUN(const std::string& userName);
 	std::string GetLogInPassw() const;
+	void SetLogInPassw(const std::string& password);
+	void setCurrentUser();
+	User getCurrentUser() const;
 	User LogUser();
 	~LogIn() = default;
 
@@ -20,6 +25,6 @@ private:
 
 	std::string m_LogInUName;
 	std::string m_LogInPassw;
-	
+	User m_currentUser;
 };
 
