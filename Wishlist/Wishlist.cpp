@@ -1,7 +1,12 @@
 #include "Wishlist.h"
 
-Wishlist::Wishlist(std::string userName, std::string idWishlist, std::string movieTitle):
-	m_userName(userName),m_idWishlist(idWishlist),m_movieTitle(movieTitle)
+Wishlist::Wishlist():
+	m_idWishlist(-1),m_userName(""),m_movieTitle("")
+{
+}
+
+Wishlist::Wishlist(int idWishlist, std::string userName, std::string movieTitle):
+	m_idWishlist(idWishlist),m_userName(userName),m_movieTitle(movieTitle)
 {
 	UpdateDatabase();
 }
@@ -9,5 +14,6 @@ Wishlist::Wishlist(std::string userName, std::string idWishlist, std::string mov
 void Wishlist::UpdateDatabase()
 {
 	auto storage = CreateTable();
-	storage.replace(*this);
+	auto insertedId = storage.insert(*this);
+	m_idWishlist = insertedId;
 }
