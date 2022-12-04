@@ -40,7 +40,7 @@ struct Movie
         return storage;
     }
     static void MakeDatabase();
- 
+    friend std::ostream& operator <<(std::ostream& out, const Movie& movie);
 };
 
 
