@@ -3,6 +3,7 @@
 #include <sqlite_orm/sqlite_orm.h>
 #include <iostream>
 
+
 struct Wishlist
 {
 	std::string m_userName;
@@ -26,5 +27,6 @@ struct Wishlist
     }
 
     void UpdateDatabase();
+    friend std::ostream& operator <<(std::ostream& out, const Wishlist& movie);
 };
 

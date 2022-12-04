@@ -17,3 +17,11 @@ void Wishlist::UpdateDatabase()
 	auto insertedId = storage.insert(*this);
 	m_idWishlist = insertedId;
 }
+
+std::ostream& operator <<(std::ostream& out, const Wishlist& movie)
+{
+	out << movie.m_movieTitle;
+	return out;
+}
+
+
