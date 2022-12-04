@@ -1,4 +1,7 @@
 #include "User.h"
+#include "Storages.h"
+#include "Wishlist.h"
+#include "Seen.h"
 
 User::User(std::string firstName, std::string lastName, std::string userName, std::string password, std::string favMovie, std::string favActor,
 	bool drama, bool action, bool SF, bool comedy, bool thriller, bool fantasy, bool animation, bool horror, bool romance, bool mistery, bool adventure,
@@ -225,5 +228,29 @@ void User::UserPage()
 	{
 		std::cout << "movies and tv-shows\n";
 	}
+	std::cout << "\nSeen movies or TV-shows: \n";
+	auto seenTable = Storages::getInstance()->getSeenStorage();
+	std::vector<Seen> seenUser;
+	seenUser = seenTable.get_all<Seen>(sqlite_orm::where
+	(sqlite_orm::like((&Seen::m_userName), m_userName)));
+	if (seenUser.size() == 0)
+	{
+		std::cout << "empty list.\n";
+	}
+	else
+	{
+		for (const auto& movie : seenUser)
+		{
+			std::cout << movie.m_movieTitle << "\n";
+		}
+	}
 }
 
+void User::ShowWishlist(const std::string& name)
+{
+	using namespace sqlite_orm;
+	auto table = Storages::getInstance()->getWishlistStorage();
+	std::vector<Wishlist> allMovies;
+	allMovies = table.get_all<Wishlist>(where(like((&Wishlist::m_userName), name)));
+	std::cout << allMovies[0];
+}

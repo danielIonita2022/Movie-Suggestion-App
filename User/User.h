@@ -73,6 +73,8 @@ public:
 
 	void UserPage();
 
+	void ShowWishlist(const std::string& name);
+
 	~User() = default;
 
 private:
