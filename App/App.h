@@ -8,6 +8,7 @@ class App
 {
 public:
 	App();
+	bool passwordValidation(std::string password);
 	~App() = default;
 };
 
