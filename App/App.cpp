@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdint>
 #include <string>
+#include <regex>
 
 std::vector<Movie> movieSearch(MoviePage films, std::string& title, bool& ok)
 {
@@ -12,6 +13,32 @@ std::vector<Movie> movieSearch(MoviePage films, std::string& title, bool& ok)
 	std::vector<Movie> SearchedFilm;
 	SearchedFilm = films.getMovies(title, ok);
 	return SearchedFilm;
+}
+
+bool passwordValidation(std::string password)
+{
+	if (password.size() < 8)
+	{
+		std::cout << "The password is too short!\nPlease try again.\n";
+		return false;
+	}
+	if (!std::regex_search(password, std::regex("[A-Z]+")))
+	{
+		std::cout << "The password doesn't contain any uppercase letters!\nPlease try again.\n";
+		return false;
+	}
+	if (!std::regex_search(password, std::regex("[a-z]+")))
+	{
+		std::cout << "The password doesn't contain any lowercase letters!\nPlease try again.\n";
+		return false;
+	}
+	if (!std::regex_search(password, std::regex("[0-9]+")))
+	{
+		std::cout << "The password doesn't contain any numbers!\nPlease try again.\n";
+		return false;
+	}
+	std::cout << "The password is valid!\n";
+	return true;
 }
 
 App::App()
@@ -43,9 +70,12 @@ App::App()
 		std::getline(std::cin, lastName);
 		std::cout << "Enter the username you want to use on this app:" << '\n';
 		std::getline(std::cin, userName);
-		std::cout << "Enter the password you want to use on this app:" << '\n';
+		std::cout << "Enter the password you want to use on this app (The password should be at least 8 characters long, have at least one uppercase letter, one lowercase letter and one number):" << '\n';
 		std::getline(std::cin, password);
-		std::cout << '\n';
+		while (!passwordValidation(password))
+		{
+			std::getline(std::cin, password);
+		}
 		std::cout << "To help us finding the best recomandations for you please answer the following questions:" << '\n';
 		std::cout << "1. What is your favourite movie?" << '\n';
 		std::getline(std::cin, favMovie);
@@ -121,8 +151,9 @@ App::App()
 		std::getline(std::cin, UserName);
 		std::cout << "Enter your password:" << '\n';
 		std::getline(std::cin, Password);
-		LogIn logger(UserName, Password);
-		logger.setCurrentUser();
+		LogIn lg(UserName, Password);
+		lg.setCurrentUser();
+		logger = lg;
 		ok = 1;
 		break;
 	}
@@ -146,10 +177,9 @@ App::App()
 			std::cout << "If you want to:\n" << '\n';
 			std::cout << "Close the menu press [ 0 ]\n";
 			std::cout << "Search a movie [ 1 ]\n";
-			std::cout << "I want to see a movie's page [ 2 ]\n";
-			std::cout << "Show my user page [ 3 ]\n";
-			std::cout << "I want to see my wish-list [ 4 ]\n";
-			std::cout << "Recommandations [ 5 ]\n";
+			std::cout << "Show my user page [ 2 ]\n";
+			std::cout << "I want to see my wish-list [ 3 ]\n";
+			std::cout << "Recommandations [ 4 ]\n";
 			std::cout << '\n';
 			std::cin >> option;
 			switch (option)
@@ -158,33 +188,20 @@ App::App()
 			{
 				std::string movieName;
 				MoviePage movies(&logger);
-				SearchedFilm = movieSearch(movies, movieName, OK);
-				std::cout << SearchedFilm[0].m_title << '\n';
-				std::cout << SearchedFilm[0].m_director << '\n';
+				movies.ShowDetails();
 				break;
 			}
-
-			case  2:
-			{
-				if (OK == 1)
-				{
-					std::cout << "The page you asked for:";
-					std::cout << SearchedFilm[0] << '\n';
-				}
-				std::cout << "The movie page does not exist! Please press [ 1 ] to search for another movie\n";
-				break;
-			}
-			case 3:
+			case 2:
 			{
 				logger.getCurrentUser().UserPage();
 				break;
 			}
-			case 4:
+			case 3:
 			{
 				logger.getCurrentUser().ShowWishlist(logger.GetLogInUN());
 				break;
 			}
-			case 5:
+			case 4:
 			{
 				if (OK == 1)
 				{
@@ -195,7 +212,7 @@ App::App()
 					std::cout << "Recommandations do not exist! Please press [ 1 ] to search for another movie\n";
 				break;
 			}
-			case 6:
+			case 5:
 			{
 				std::cout << "Log out";
 				delete& logger;
@@ -206,9 +223,6 @@ App::App()
 				std::cout << "Wrong option / number! Please retry!\n";
 				break;
 			}
-
-
-
 			}
 		}
 	}
