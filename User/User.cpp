@@ -228,7 +228,7 @@ void User::UserPage()
 	{
 		std::cout << "movies and tv-shows\n";
 	}
-	std::cout << "\nSeen movies or TV-shows: \n";
+	std::cout << "Seen movies or TV-shows: \n";
 	auto seenTable = Storages::getInstance()->getSeenStorage();
 	std::vector<Seen> seenUser;
 	seenUser = seenTable.get_all<Seen>(sqlite_orm::where
@@ -241,7 +241,15 @@ void User::UserPage()
 	{
 		for (const auto& movie : seenUser)
 		{
-			std::cout << movie.m_movieTitle << "\n";
+			std::cout << movie.m_movieTitle;
+			if (movie.m_like)
+			{
+				std::cout << " (LIKE) \n";
+			}
+			else
+			{
+				std::cout << " (DISLIKE) \n";
+			}
 		}
 	}
 }
@@ -252,5 +260,15 @@ void User::ShowWishlist(const std::string& name)
 	auto table = Storages::getInstance()->getWishlistStorage();
 	std::vector<Wishlist> allMovies;
 	allMovies = table.get_all<Wishlist>(where(like((&Wishlist::m_userName), name)));
-	std::cout << allMovies[0];
+	if (allMovies.size())
+	{
+		for (int i = 0; i < allMovies.size(); i++)
+		{
+			std::cout << allMovies[0] << '\n';
+		}
+	}
+	else
+	{
+		std::cout << "The Wishlist is empty.\n";
+	}
 }
