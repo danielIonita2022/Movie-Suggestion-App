@@ -1,20 +1,19 @@
 #include "MoviePage.h"
 #include <regex>
-
 MoviePage::MoviePage(LogIn* logger) :
 	m_logger(logger)
 {
 }
-
 void MoviePage::ShowDetails()
 {
-	std::cout << "Cautati un film sau serial dupa titlu: ";
+	std::cout << "Search a movie/TV-show: ";
 	std::string title;
 	std::getline(std::cin >> std::ws, title);
-	m_movieList = getMovies(title);
-	if (!m_movieList.empty())
+	bool ok;
+	m_movieList = getMovies(title, ok);
+	if (!m_movieList.empty()) 
 	{
-		std::cout << "Choose the movie from the available results: \n";
+		std::cout << "Choose the movie/TV-show from the available results: \n";
 		int movieNumber = -1;
 		for (const auto& movie : m_movieList)
 		{
@@ -25,9 +24,33 @@ void MoviePage::ShowDetails()
 		std::cin >> chosenMovieNumber;
 		Movie movie = m_movieList.at(chosenMovieNumber);
 		std::cout << movie;
+		std::cout << "Have you seen this movie/TV-show?\n";
+		std::cout << "Press 1 for YES and 0 for NO.\n";
+		uint16_t character;
+		std::cin >> character;
+		if (character == 1)
+		{
+			std::cout << "Have you liked this movie/TV-show?\n";
+			std::cout << "Press 1 for YES and 0 for NO.\n";
+			bool like;
+			std::cin >> like;
+			std::string userName = m_logger->GetLogInUN();
+			Seen newSeen(-1, userName, title, like);
+		}
+		else
+		{
+			std::cout << "Do you want to add this movie to your Wishlist?\n";
+			std::cout << "Press 1 for YES and 0 for NO.\n";
+			uint16_t character;
+			std::cin >> character;
+			if (character == 1)
+			{
+				std::string userName = m_logger->GetLogInUN();
+				Wishlist newWish(-1, userName, title);
+			}
+		}
 	}
 }
-
 int countWordsRegex(const std::string& name)
 {
 	std::regex regex("(\\w+)|(:)");
@@ -35,7 +58,6 @@ int countWordsRegex(const std::string& name)
 	auto wordsEnd = std::sregex_iterator();
 	return std::distance(wordsBegin, wordsEnd);
 }
-
 std::string::iterator findPosOfLastWord(std::string& name)
 {
 	for (std::string::iterator pos = name.end() - 1; pos != name.begin(); --pos)
@@ -44,12 +66,10 @@ std::string::iterator findPosOfLastWord(std::string& name)
 			return pos;
 	}
 }
-
 void deleteLastWord(std::string& name)
 {
 	name.erase(findPosOfLastWord(name), name.end());
 }
-
 std::vector<Movie> MoviePage::getMovies(const std::string& name)
 {
 	auto table = Storages::getInstance()->getMovieStorage();
@@ -83,7 +103,6 @@ std::vector<Movie> MoviePage::getMovies(const std::string& name)
 	}
 	return allMovies;
 }
-
 void MoviePage::ShowSimilar(Movie movie)
 {
 	int number = 10;

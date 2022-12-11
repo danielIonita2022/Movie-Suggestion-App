@@ -5,12 +5,13 @@
 
 struct Seen
 {
-	int m_idSeen;
-	std::string m_userName;
-	std::string m_movieTitle;
+    int m_idSeen;
+    std::string m_userName;
+    std::string m_movieTitle;
+    bool m_like;
 
     Seen();
-	Seen(int idSeen, std::string userName, std::string movieTitle);
+    Seen(int idSeen, std::string userName, std::string movieTitle, bool like);
 
     static auto CreateTable()
     {
@@ -19,7 +20,8 @@ struct Seen
             sqlite_orm::make_table("Seen",
                 sqlite_orm::make_column("idSeen", &Seen::m_idSeen, sqlite_orm::autoincrement(), sqlite_orm::primary_key()),
                 sqlite_orm::make_column("userName", &Seen::m_userName),
-                sqlite_orm::make_column("movieTitle", &Seen::m_movieTitle)
+                sqlite_orm::make_column("movieTitle", &Seen::m_movieTitle),
+                sqlite_orm::make_column("like", &Seen::m_like)
             ));
         storage.sync_schema();
         return storage;
