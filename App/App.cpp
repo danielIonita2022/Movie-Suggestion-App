@@ -197,6 +197,9 @@ App::App()
 			}
 			case 4:
 			{
+				std::cout << "The recommandations for your wishlist are: \n";
+				RecommendedPage page1(logger.getCurrentUser());
+				page1.printRecommandation();
 				break;
 			}
 			case 5:

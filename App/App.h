@@ -4,6 +4,8 @@
 #include "Movie.h"
 #include "LogIn.h"
 #include "MoviePage.h"
+#include "RecommendedPage.h"
+
 class App
 {
 public:

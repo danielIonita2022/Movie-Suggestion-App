@@ -17,20 +17,20 @@ void MoviePage::ShowDetails()
 		for (const auto& movie : m_movieList)
 		{
 			++movieNumber;
-			std::cout << movie.m_title << " -> SELECT WITH: " << movieNumber << '\n';
+			std::cout << movie.m_title << " -> SELECT THE MOVIE WITH: " << movieNumber << '\n';
 		}
 		int chosenMovieNumber = -1;
 		std::cin >> chosenMovieNumber;
 		Movie movie = m_movieList.at(chosenMovieNumber);
 		std::cout << movie;
 		std::cout << "Have you seen this movie/TV-show?\n";
-		std::cout << "Press 1 for YES and 0 for NO.\n";
+		std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 		uint16_t character;
 		std::cin >> character;
 		if (character == 1)
 		{
 			std::cout << "Have you liked this movie/TV-show?\n";
-			std::cout << "Press 1 for YES and 0 for NO.\n";
+			std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 			bool like;
 			std::cin >> like;
 			std::string userName = m_logger->GetLogInUN();
@@ -39,7 +39,7 @@ void MoviePage::ShowDetails()
 		else
 		{
 			std::cout << "Do you want to add this movie to your Wishlist?\n";
-			std::cout << "Press 1 for YES and 0 for NO.\n";
+			std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 			uint16_t character;
 			std::cin >> character;
 			if (character == 1)
