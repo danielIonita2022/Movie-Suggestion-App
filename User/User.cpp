@@ -229,7 +229,7 @@ void User::UserPage()
 		std::cout << "movies and tv-shows\n";
 	}
 	std::cout << "Seen movies or TV-shows: \n";
-	auto seenTable = Storages::getInstance()->getSeenStorage();
+	auto seenTable = Storages::getInstance().getSeenStorage();
 	std::vector<Seen> seenUser;
 	seenUser = seenTable.get_all<Seen>(sqlite_orm::where
 	(sqlite_orm::like((&Seen::m_userName), m_userName)));
@@ -257,7 +257,7 @@ void User::UserPage()
 void User::ShowWishlist(const std::string& name)
 {
 	using namespace sqlite_orm;
-	auto table = Storages::getInstance()->getWishlistStorage();
+	auto table = Storages::getInstance().getWishlistStorage();
 	std::vector<Wishlist> allMovies;
 	allMovies = table.get_all<Wishlist>(where(like((&Wishlist::m_userName), name)));
 	if (allMovies.size())

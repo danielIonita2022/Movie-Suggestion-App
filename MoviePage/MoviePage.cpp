@@ -1,6 +1,6 @@
 #include "MoviePage.h"
 #include <regex>
-MoviePage::MoviePage(LogIn* logger) :
+MoviePage::MoviePage(std::shared_ptr<LogIn> logger) :
 	m_logger(logger)
 {
 }
@@ -9,8 +9,7 @@ void MoviePage::ShowDetails()
 	std::cout << "Search a movie/TV-show: ";
 	std::string title;
 	std::getline(std::cin >> std::ws, title);
-	bool ok;
-	m_movieList = getMovies(title, ok);
+	m_movieList = getMovies(title);
 	if (!m_movieList.empty()) 
 	{
 		std::cout << "Choose the movie/TV-show from the available results: \n";
@@ -72,7 +71,7 @@ void deleteLastWord(std::string& name)
 }
 std::vector<Movie> MoviePage::getMovies(const std::string& name)
 {
-	auto table = Storages::getInstance()->getMovieStorage();
+	auto table = Storages::getInstance().getMovieStorage();
 	std::vector<Movie> allMovies;
 	std::string incompleteName = name;
 	allMovies = table.get_all<Movie>(sqlite_orm::where
@@ -106,7 +105,7 @@ std::vector<Movie> MoviePage::getMovies(const std::string& name)
 void MoviePage::ShowSimilar(Movie movie)
 {
 	int number = 10;
-	auto table = Storages::getInstance()->getMovieStorage();
+	auto table = Storages::getInstance().getMovieStorage();
 	std::vector<Movie> allMovies;
 	allMovies = table.get_all<Movie>(sqlite_orm::where
 	(sqlite_orm::like((&Movie::m_type), movie.m_type)));

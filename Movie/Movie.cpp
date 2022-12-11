@@ -18,7 +18,7 @@ void Movie::MakeDatabase()
              elements[4],
              elements[5],
              elements[6],
-             elements[7],
+             std::stoi(elements[7]),
              elements[8],
              elements[9],
              elements[10],

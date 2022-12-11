@@ -7,12 +7,12 @@
 class MoviePage
 {
 private:
-	std::vector<Movie> m_movies;
-	LogIn* m_logger;
+	std::vector<Movie> m_movieList;
+	std::shared_ptr<LogIn> m_logger;
 public:
 
-	MoviePage(LogIn* logger);
+	MoviePage(std::shared_ptr<LogIn> logger);
 	void ShowDetails();
 	void ShowSimilar(Movie movie);
-	std::vector<Movie> getMovies(const std::string& name, bool& ok);
+	std::vector<Movie> getMovies(const std::string& name);
 };

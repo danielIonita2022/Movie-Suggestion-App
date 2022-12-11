@@ -30,7 +30,7 @@ void LogIn::SetLogInPassw(const std::string& password)
 
 User LogIn::LogUser()
 {
-	StorageUsers storage = Storages::getInstance()->getUserStorage();
+	StorageUsers storage = Storages::getInstance().getUserStorage();
 	if (storage.get_pointer<User>(m_LogInUName) != nullptr)
 	{
 		User currentUser = storage.get<User>(m_LogInUName);

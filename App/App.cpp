@@ -4,18 +4,7 @@
 #include <string>
 #include <regex>
 
-std::vector<Movie> movieSearch(MoviePage films, std::string& title, bool& ok)
-{
-	std::cout << "What is the movie you'd like to search for? ";
-	//because i had a cin>> before and it remained on that line. Added ws to move the line below (the problem is when i read 
-	//with std::cin and after with std::getline)
-	std::getline(std::cin >> std::ws, title);
-	std::vector<Movie> SearchedFilm;
-	SearchedFilm = films.getMovies(title, ok);
-	return SearchedFilm;
-}
-
-bool passwordValidation(std::string password)
+bool App::passwordValidation(std::string password)
 {
 	if (password.size() < 8)
 	{
@@ -76,6 +65,7 @@ App::App()
 		{
 			std::getline(std::cin, password);
 		}
+		std::cout << '\n';
 		std::cout << "To help us finding the best recomandations for you please answer the following questions:" << '\n';
 		std::cout << "1. What is your favourite movie?" << '\n';
 		std::getline(std::cin, favMovie);
@@ -169,6 +159,9 @@ App::App()
 		int option = 10;
 		bool OK = 0;
 		std::vector<Movie> SearchedFilm;
+		std::shared_ptr<LogIn> p_logger(&logger);
+		MoviePage movies(p_logger);
+		std::string movieName;
 		while (option)
 		{
 			std::cout << "\nWelcome to the START PAGE! ";
@@ -178,8 +171,8 @@ App::App()
 			std::cout << "Close the menu press [ 0 ]\n";
 			std::cout << "Search a movie [ 1 ]\n";
 			std::cout << "Show my user page [ 2 ]\n";
-			std::cout << "I want to see my wish-list [ 3 ]\n";
-			std::cout << "Recommandations [ 4 ]\n";
+			std::cout << "I want to see my wishlist [ 3 ]\n";
+			std::cout << "Recommandations for your search movies [ 4 ]\n";
 			std::cout << '\n';
 			std::cin >> option;
 			switch (option)
@@ -187,7 +180,8 @@ App::App()
 			case 1:
 			{
 				std::string movieName;
-				MoviePage movies(&logger);
+				std::shared_ptr<LogIn> p_logger(&logger);
+				MoviePage movies(p_logger);
 				movies.ShowDetails();
 				break;
 			}
@@ -203,13 +197,6 @@ App::App()
 			}
 			case 4:
 			{
-				if (OK == 1)
-				{
-					MoviePage movie(&logger);
-					movie.ShowSimilar(SearchedFilm[0]);
-				}
-				else
-					std::cout << "Recommandations do not exist! Please press [ 1 ] to search for another movie\n";
 				break;
 			}
 			case 5:
@@ -227,5 +214,3 @@ App::App()
 		}
 	}
 }
-
-
