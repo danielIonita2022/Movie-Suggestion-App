@@ -16,12 +16,11 @@ public:
 	StorageUsers getUserStorage() const;
 	StorageWishlists getWishlistStorage() const;
 	StorageSeen getSeenStorage() const;
-	static Storages* getInstance();
+	static Storages& getInstance();
 	Storages(const Storages& storageInstance) = delete;
 
 private:
 	Storages();
-	static Storages* m_storagesInstance;
 	const StorageMovies m_storageMovies = Movie::CreateTable();
 	const StorageUsers m_storageUsers = User::CreateTable();
 	const StorageWishlists m_storageWishlists = Wishlist::CreateTable();

@@ -1,8 +1,6 @@
 #pragma once
 #include "Storages.h"
 
-Storages* Storages::m_storagesInstance = Storages::getInstance();
-
 Storages::Storages()
 {
 }
@@ -22,11 +20,8 @@ StorageSeen Storages::getSeenStorage() const
 {
 	return m_storageSeen;
 }
-Storages* Storages::getInstance()
+Storages& Storages::getInstance()
 {
-	if (m_storagesInstance == nullptr)
-	{
-		m_storagesInstance = new Storages;
-	}
+	static Storages m_storagesInstance;
 	return m_storagesInstance;
 }
