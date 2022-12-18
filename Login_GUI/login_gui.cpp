@@ -6,6 +6,7 @@ Login_GUI::Login_GUI()
 {
     setupUi();
     connect(pushButton_login, &QPushButton::clicked, this, &Login_GUI::login);
+    connect(pushButton_signup, &QPushButton::clicked, this, &Login_GUI::signup);
 }
 
 void Login_GUI::setupUi()
@@ -163,7 +164,14 @@ std::unique_ptr<User> Login_GUI::login()
     }
     return currentUser;
 }
-
+void Login_GUI::signup()
+{
+    hide();
+    pushButton_signup->setEnabled(false);
+    pushButton_login->setEnabled(false);
+    Register_GUI* registerWindow = new Register_GUI;
+    registerWindow->show();
+}
 Login_GUI::~Login_GUI()
 {
 }
