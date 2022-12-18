@@ -23,31 +23,27 @@ void MoviePage::ShowDetails()
 		std::cin >> chosenMovieNumber;
 		Movie movie = m_movieList.at(chosenMovieNumber);
 		std::cout << movie;
-		std::cout << "Have you seen this movie/TV-show?\n";
+		std::cout << "\nHave you seen this movie/TV-show?\n";
 		std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 		uint16_t character;
 		std::cin >> character;
 		if (character == 1)
 		{
-			std::cout << "Have you liked this movie/TV-show?\n";
-			std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
-			bool like;
-			std::cin >> like;
-			std::string userName = m_logger->GetLogInUN();
-			Seen newSeen(-1, userName, title, like);
-		}
-		else
-		{
-			std::cout << "Do you want to add this movie to your Wishlist?\n";
-			std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
-			uint16_t character;
-			std::cin >> character;
-			if (character == 1)
+			std::unique_ptr<Seen> film;
+			StorageSeen table = Storages::getInstance().getSeenStorage();
+			film = table.get_pointer<Seen>(movie.m_title);
+			if (film == nullptr)
 			{
+				std::cout << "Have you liked this movie/TV-show?\n";
+				std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
+				bool like;
+				std::cin >> like;
 				std::string userName = m_logger->GetLogInUN();
-				Wishlist newWish(-1, userName, title);
+				Seen newSeen(-1, userName, title, like);
 			}
 		}
+		
+
 	}
 }
 int countWordsRegex(const std::string& name)
