@@ -259,7 +259,29 @@ void Register_GUI::retranslateUi()
     label_4->setText(QCoreApplication::translate("Register_GUI", "Username  ", nullptr));
     label_3->setText(QCoreApplication::translate("Register_GUI", "Password   ", nullptr));
 }
-
+bool Register_GUI::passwordValidation(const std::string& password)
+{
+    if (password.size() < 8)
+    {
+        QMessageBox::warning(this, "Registration failed!", "The password is too short!");
+        return false;
+    }
+    if (!std::regex_search(password, std::regex("[A-Z]+")))
+    {
+        QMessageBox::warning(this, "Registration failed!", "The password doesn't contain any uppercase letters!");
+        return false;
+    }
+    if (!std::regex_search(password, std::regex("[a-z]+")))
+    {
+        QMessageBox::warning(this, "Registration failed!", "The password doesn't contain any lowercase letters!");
+        return false;
+    }
+    if (!std::regex_search(password, std::regex("[0-9]+")))
+    {
+        QMessageBox::warning(this, "Registration failed!", "The password doesn't contain any numbers!");
+        return false;
+    }
+}
 void Register_GUI::addNewUserToDB()
 {
     std::string firstName = lineEdit->text().toStdString();
@@ -277,7 +299,10 @@ void Register_GUI::addNewUserToDB()
         QMessageBox::warning(this, "Registration failed!", "Please fill the required fields!");
         return;
     }
-    
+    if (!passwordValidation(password))
+    {
+        return;
+    }
 
     bool drama = checkBoxDrama->isChecked();
     bool action = checkBoxAction->isChecked();
