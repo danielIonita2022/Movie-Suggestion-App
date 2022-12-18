@@ -42,8 +42,25 @@ void MoviePage::ShowDetails()
 				Seen newSeen(-1, userName, title, like);
 			}
 		}
-		
 
+		else
+		{
+			std::unique_ptr<Wishlist> film;
+			StorageWishlists table = Storages::getInstance().getWishlistStorage();
+			film = table.get_pointer<Wishlist>(movie.m_title);
+			if (film == nullptr)
+			{
+				std::cout << "\Do you want to add this movie to your Wishlist?\n";
+				std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
+				uint16_t character;
+				std::cin >> character;
+				if (character == 1)
+				{
+					std::string userName = m_logger->GetLogInUN();
+					Wishlist newWish(-1, userName, title);
+				}
+			}
+		}
 	}
 }
 int countWordsRegex(const std::string& name)
