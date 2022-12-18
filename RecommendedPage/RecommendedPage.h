@@ -59,7 +59,7 @@ public:
 
 		for (const auto& seenMovie : objects)
 		{
-			if (seenMovie.m_userName == m_currentUser.GetUserName())
+			if (seenMovie.m_userName == m_currentUser.GetUserName() && seenMovie.m_like == 1)
 			{
 				std::vector <Movie> movieList = tableMovies.get_all<Movie>(where
 				(like((&Movie::m_title), seenMovie.m_movieTitle)));
@@ -75,23 +75,7 @@ public:
 		return allMovies;
 
 	}
-	inline void printRecommandation()
-	{
-		std::vector<Movie> recommendationsW = recommendWishlistMovies();
-		std::vector<Movie> recommendationsS = recommendSeenMovies();
-		recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
-		int number = 10;
-		std::cout << "The recomandations similar with your movies are: \n";
-		for (const auto& film : recommendationsW)
-		{
-			if (number > 0)
-			{
-				std::cout << film.m_title << '\n';
-			}
-			else break;
-			number--;
-		}
-	}
+	
 	~RecommendedPage() = default;
 private:
 	User m_currentUser;

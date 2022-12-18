@@ -157,9 +157,8 @@ App::App()
 	if (ok == 1)
 	{
 		int option = 10;
-		bool OK = 0;
 		std::vector<Movie> SearchedFilm;
-		std::shared_ptr<LogIn> p_logger(&logger);
+		std::shared_ptr<LogIn> p_logger=std::make_shared<LogIn>(logger);
 		MoviePage movies(p_logger);
 		std::string movieName;
 		while (option)
@@ -180,7 +179,7 @@ App::App()
 			case 1:
 			{
 				std::string movieName;
-				std::shared_ptr<LogIn> p_logger(&logger);
+				std::shared_ptr<LogIn> p_logger = std::make_shared<LogIn>(logger);
 				MoviePage movies(p_logger);
 				movies.ShowDetails();
 				break;
@@ -197,9 +196,8 @@ App::App()
 			}
 			case 4:
 			{
-				std::cout << "The recommandations for your wishlist are: \n";
 				RecommendedPage page1(logger.getCurrentUser());
-				page1.printRecommandation();
+				//page1.printRecommandation();
 				break;
 			}
 			case 5:
