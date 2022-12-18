@@ -59,7 +59,7 @@ public:
 
 		for (const auto& seenMovie : objects)
 		{
-			if (seenMovie.m_userName == m_currentUser.GetUserName())
+			if (seenMovie.m_userName == m_currentUser.GetUserName() && seenMovie.m_like == 1)
 			{
 				std::vector <Movie> movieList = tableMovies.get_all<Movie>(where
 				(like((&Movie::m_title), seenMovie.m_movieTitle)));
@@ -75,23 +75,46 @@ public:
 		return allMovies;
 
 	}
+
 	inline void printRecommandation()
 	{
 		std::vector<Movie> recommendationsW = recommendWishlistMovies();
 		std::vector<Movie> recommendationsS = recommendSeenMovies();
 		recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
+		StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
+		StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
 		int number = 10;
-		std::cout << "The recomandations similar with your movies are: \n";
+		std::cout << "The recomandations similar with your wishlist movies are: \n";
 		for (const auto& film : recommendationsW)
 		{
 			if (number > 0)
 			{
-				std::cout << film.m_title << '\n';
+				if (tableWishlist.get_pointer<Wishlist>(film.m_title) == nullptr
+					&& tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
+				{
+					std::cout << film.m_title << '\n';
+					number--;
+				}
 			}
 			else break;
-			number--;
+		}
+		std::cout << "\nThe recomandations similar with your seen movies are: \n";
+		number = 10;
+		for (const auto& film : recommendationsS)
+		{
+			if (number > 0)
+			{
+				if (tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
+				{
+					std::cout << film.m_title << '\n';
+					number--;
+				}
+			}
+			else break;
 		}
 	}
+
+
 	~RecommendedPage() = default;
 private:
 	User m_currentUser;

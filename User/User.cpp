@@ -264,7 +264,7 @@ void User::ShowWishlist(const std::string& name)
 	{
 		for (int i = 0; i < allMovies.size(); i++)
 		{
-			std::cout << allMovies[0] << '\n';
+			std::cout << allMovies[i] << '\n';
 		}
 	}
 	else
