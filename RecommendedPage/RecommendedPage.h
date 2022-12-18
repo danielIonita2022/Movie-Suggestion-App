@@ -75,7 +75,33 @@ public:
 		return allMovies;
 
 	}
-	
+
+	inline void printRecommandation()
+	{
+		std::vector<Movie> recommendationsW = recommendWishlistMovies();
+		std::vector<Movie> recommendationsS = recommendSeenMovies();
+		recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
+		StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
+		StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
+		int number = 10;
+		std::cout << "The recomandations similar with your wishlist movies are: \n";
+		for (const auto& film : recommendationsW)
+		{
+			if (number > 0)
+			{
+				if (tableWishlist.get_pointer<Wishlist>(film.m_title) == nullptr
+					&& tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
+				{
+					std::cout << film.m_title << '\n';
+					number--;
+				}
+			}
+			else break;
+		}
+		
+	}
+
+
 	~RecommendedPage() = default;
 private:
 	User m_currentUser;
