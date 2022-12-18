@@ -171,6 +171,14 @@ void Login_GUI::signup()
     pushButton_login->setEnabled(false);
     Register_GUI* registerWindow = new Register_GUI;
     registerWindow->show();
+    connect(registerWindow, &Register_GUI::windowClosed, this, &Login_GUI::onWindowClosed);
+}
+void Login_GUI::onWindowClosed()
+{
+    show();
+    pushButton_signup->setEnabled(true);
+    pushButton_login->setEnabled(true);
+
 }
 Login_GUI::~Login_GUI()
 {
