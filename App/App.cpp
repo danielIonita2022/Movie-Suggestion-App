@@ -197,7 +197,7 @@ App::App()
 			case 4:
 			{
 				RecommendedPage page1(logger.getCurrentUser());
-				//page1.printRecommandation();
+				page1.printRecommandation();
 				break;
 			}
 			case 5:

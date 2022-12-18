@@ -98,7 +98,20 @@ public:
 			}
 			else break;
 		}
-		
+		std::cout << "\nThe recomandations similar with your seen movies are: \n";
+		number = 10;
+		for (const auto& film : recommendationsS)
+		{
+			if (number > 0)
+			{
+				if (tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
+				{
+					std::cout << film.m_title << '\n';
+					number--;
+				}
+			}
+			else break;
+		}
 	}
 
 
