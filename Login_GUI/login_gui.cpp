@@ -135,7 +135,7 @@ void Login_GUI::retranslateUi()
     label->setText(QCoreApplication::translate("Login_GUI", "Welcome to our Movie Suggestion App!", nullptr));
 }
 
-std::unique_ptr<User> Login_GUI::login()
+void Login_GUI::login()
 {
     QString qUsername = lineEdit_insert_user->text();
     QString qPassword = lineEdit_insert_password->text();
@@ -144,6 +144,7 @@ std::unique_ptr<User> Login_GUI::login()
     std::string password = qPassword.toStdString();
 
     std::unique_ptr<User> currentUser = nullptr;
+    bool validLogIn = false;
 
     StorageUsers storage = Storages::getInstance().getUserStorage();
     if (storage.get_pointer<User>(username) != nullptr)
@@ -151,7 +152,10 @@ std::unique_ptr<User> Login_GUI::login()
         User&& ref = storage.get<User>(username);
         currentUser.reset(&ref);
         if (currentUser->GetPassword() == password)
+        {
             QMessageBox::information(this, "Login Successful", "Welcome, " + qUsername + "!");
+            validLogIn = true;
+        }
         else
         {
             QMessageBox::warning(this, "Login Failed!", "Invalid password. Please try again");
@@ -161,8 +165,16 @@ std::unique_ptr<User> Login_GUI::login()
     else
     {
         QMessageBox::warning(this, "Login Failed!", "Please enter a valid user!");
+        currentUser.release();
     }
-    return currentUser;
+    if (validLogIn)
+    {
+        hide();
+        pushButton_signup->setEnabled(false);
+        pushButton_login->setEnabled(false);
+        SearchPage* searchPage = new SearchPage(currentUser.release());
+        searchPage->show();
+    }
 }
 void Login_GUI::signup()
 {
@@ -178,7 +190,6 @@ void Login_GUI::onWindowClosed()
     show();
     pushButton_signup->setEnabled(true);
     pushButton_login->setEnabled(true);
-
 }
 Login_GUI::~Login_GUI()
 {

@@ -2,6 +2,7 @@
 #pragma warning(disable : 4996)
 #include "LogIn.h"
 #include "User.h"
+#include "SearchPage.h"
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGroupBox>
@@ -42,7 +43,7 @@ public:
     QStatusBar* statusBar;
 
     Login_GUI();
-    std::unique_ptr<User> login();
+    void login();
     void signup();
     void onWindowClosed();
     ~Login_GUI();
