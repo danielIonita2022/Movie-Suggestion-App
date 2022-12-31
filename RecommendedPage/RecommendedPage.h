@@ -19,7 +19,7 @@ public:
 	uint16_t maxim(std::array<uint16_t, 11> arr, uint16_t& mx);
 	uint16_t position(std::array<uint16_t, 11> arr, uint16_t mx, uint16_t& poz);
 	bool validation(std::string recomandare, std::array<std::string, 10> titluri);
-
+	std::vector<Movie> getAllMovies(std::vector<Movie> movies, std::string gen);
 	std::vector<Movie>recommendWishlistMovies();
 	std::vector<Movie>recommendSeenMovies();
 	void printRecommendation();
@@ -63,7 +63,20 @@ inline bool RecommendedPage::validation(std::string recomandare, std::array<std:
 	return 1;
 }
 
-inline std::vector<Movie> RecommendedPage::recommendWishlistMovies()
+inline std::vector<Movie> RecommendedPage::getAllMovies(std::vector<Movie> movies, std::string gen)
+{
+	std::vector<Movie> allMovies;
+	for (int i = 0; i < movies.size(); i++)
+	{
+		if (movies[i].m_listedIn.find(gen) != std::string::npos)
+		{
+			allMovies.emplace_back(movies[i]);
+		}
+	}
+	return allMovies;
+}
+
+inline std::vector<Movie>RecommendedPage::recommendWishlistMovies()
 {
 
 	StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
@@ -73,29 +86,43 @@ inline std::vector<Movie> RecommendedPage::recommendWishlistMovies()
 	std::vector<Movie> allMovies;
 
 	auto objects = tableWishlist.get_all<Wishlist>();
+	std::array<uint16_t, 11> types = { 0 };
+	std::vector<std::string> enum_str = { "Drama","Action" ,"SF ","Comedy","Thriller" ,
+								"Fantasy","Animation","Horror","Romance","Mistery","Adventure" };
 
 	for (const auto& wishlistMovie : objects)
 	{
-		if (wishlistMovie.m_userName == m_currentUser.GetUserName())
+		if (wishlistMovie.m_userName.compare(m_currentUser.GetUserName()))
 		{
 			std::vector <Movie> movieList = tableMovies.get_all<Movie>(where
 			(like((&Movie::m_title), wishlistMovie.m_movieTitle)));
 
 			Movie movie = movieList[0];
-			TypeWishlist.insert(movie.m_type);
+			for (int i = 0; i < 11; i++)
+			{
+				//in type nu e genul filmului
+				//to do
+				if (movie.m_listedIn.find(enum_str[i]) != std::string::npos)
+				{
+					types[i]++;
+					//break;
+				}
+			}
+			TypeWishlist.insert(movie.m_listedIn);
 		}
 	}
-	for (const auto& type : TypeWishlist)
-	{
-		allMovies = tableMovies.get_all<Movie>(where(like((&Movie::m_type), type)));
-	}
+	//todo:gasit max in types si retin poz maximului, in vect de enum_string la indexul aferent maximului, get all where m_type, enum_str[index_max}
+	uint16_t mx = 0;
+	uint16_t poz = RecommendedPage::position(types, mx, poz);
+
+	std::vector<Movie>allMoviesFromDataBase = tableMovies.get_all<Movie>();
+	allMovies = getAllMovies(allMoviesFromDataBase, enum_str[poz]);
 	return allMovies;
 
 }
 
-inline std::vector<Movie> RecommendedPage::recommendSeenMovies() 
+inline std::vector<Movie>RecommendedPage::recommendSeenMovies()
 {
-
 	StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
 	using namespace sqlite_orm;
 	std::unordered_set<std::string> TypeSeen;
@@ -103,6 +130,9 @@ inline std::vector<Movie> RecommendedPage::recommendSeenMovies()
 	std::vector<Movie> allMovies;
 
 	auto objects = tableSeen.get_all<Seen>();
+	std::array<uint16_t, 11> types = { 0 };
+	std::vector<std::string> enum_str = { "Drama","Action" ,"SF ","Comedy","Thriller" ,
+								"Fantasy","Animation","Horror","Romance","Mistery","Adventure" };
 
 	for (const auto& seenMovie : objects)
 	{
@@ -112,13 +142,23 @@ inline std::vector<Movie> RecommendedPage::recommendSeenMovies()
 			(like((&Movie::m_title), seenMovie.m_movieTitle)));
 
 			Movie movie = movieList[0];
-			TypeSeen.insert(movie.m_type);
+			for (int i = 0; i < 11; i++)
+			{
+				if (movie.m_listedIn.find(enum_str[i]) != std::string::npos)
+				{
+					types[i]++;
+					//break;
+				}
+			}
+			TypeSeen.insert(movie.m_listedIn);
 		}
 	}
-	for (const auto& type : TypeSeen)
-	{
-		allMovies = tableMovies.get_all<Movie>(where(like((&Movie::m_type), type)));
-	}
+	uint16_t mx = 0;
+	uint16_t poz = RecommendedPage::position(types, mx, poz);
+
+	std::vector<Movie>allMoviesFromDataBase = tableMovies.get_all<Movie>();
+	allMovies = getAllMovies(allMoviesFromDataBase, enum_str[poz]);
+
 	return allMovies;
 
 }
