@@ -5,11 +5,27 @@
 #include "Seen.h"
 #include <vector>
 #include <unordered_set>
-
+#include <random>
+#include <time.h>
+#include <algorithm>
 
 class RecommendedPage
 {
 public:
+	enum class genres
+	{
+		drama = 0,
+		action = 1,
+		SF = 2,
+		comedy = 3,
+		thriller = 4,
+		fantasy = 5,
+		animation = 6,
+		horror = 7,
+		romance = 8,
+		mistery = 9,
+		adventure = 10
+	};
 
 	inline RecommendedPage(const User& currentUser) :
 		m_currentUser{ currentUser }
@@ -165,38 +181,51 @@ inline std::vector<Movie>RecommendedPage::recommendSeenMovies()
 
 inline void RecommendedPage::printRecommendation()
 {
+	std::random_device rd;
+	std::mt19937 eng(time(nullptr));
+
 	std::vector<Movie> recommendationsW = RecommendedPage::recommendWishlistMovies();
 	std::vector<Movie> recommendationsS = RecommendedPage::recommendSeenMovies();
-	recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
+	//recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
 	StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
 	StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
 	int number = 10;
+	std::array<std::string, 10> titluriW = { "" };
+	std::string recomandareW;
 	std::cout << "The recomandations similar with your wishlist movies are: \n";
-	for (const auto& film : recommendationsW)
+	while (number != 0)
 	{
-		if (number > 0)
+		std::uniform_int_distribution <int> distr(0, recommendationsW.size() - 1);
+		recomandareW = recommendationsW[distr(eng)].m_title;
+		if (validation(recomandareW, titluriW) == 1)
+			titluriW[10 - number] = recomandareW;
+		number--;
+	}
+	for (const auto& film : titluriW)
+	{
+		if (tableWishlist.get_pointer<Wishlist>(film) == nullptr
+			&& tableSeen.get_pointer<Seen>(film) == nullptr)
 		{
-			if (tableWishlist.get_pointer<Wishlist>(film.m_title) == nullptr
-				&& tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
-			{
-				std::cout << film.m_title << '\n';
-				number--;
-			}
+			std::cout << film << '\n';
 		}
-		else break;
 	}
 	std::cout << "\nThe recomandations similar with your seen movies are: \n";
 	number = 10;
-	for (const auto& film : recommendationsS)
+	std::array<std::string, 10> titluriS = { "" };
+	std::string recomandareS;
+	while (number != 0)
 	{
-		if (number > 0)
+		std::uniform_int_distribution <int> distr(0, recommendationsS.size() - 1);
+		recomandareS = recommendationsS[distr(eng)].m_title;
+		if (validation(recomandareS, titluriS) == 1)
+			titluriS[10 - number] = recomandareS;
+		number--;
+	}
+	for (const auto& film : titluriS)
+	{
+		if (tableSeen.get_pointer<Seen>(film) == nullptr)
 		{
-			if (tableSeen.get_pointer<Seen>(film.m_title) == nullptr)
-			{
-				std::cout << film.m_title << '\n';
-				number--;
-			}
+			std::cout << film << '\n';
 		}
-		else break;
 	}
 }
