@@ -1,5 +1,12 @@
 #include "SearchPage.h"
 
+SearchPage::SearchPage(User* currentUser)
+{
+    m_currentUser = std::make_unique<User>(*currentUser);
+    setupUi();
+    connect(searchButton, &QPushButton::clicked, this, &SearchPage::onSearchButtonClicked);
+}
+
 void SearchPage::setupUi()
 {
     window = new QWidget;
