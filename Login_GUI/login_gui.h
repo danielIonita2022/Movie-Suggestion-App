@@ -16,6 +16,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "Storages.h"
 
 class Login_GUI : public QMainWindow
 {

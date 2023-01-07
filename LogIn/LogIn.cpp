@@ -2,9 +2,9 @@
 
 using namespace sqlite_orm;
 
-LogIn::LogIn(const std::string& LogInUName, const std::string& LogInPassw):
-m_LogInUName(LogInUName),
-m_LogInPassw(LogInPassw)
+LogIn::LogIn(const std::string& LogInUName, const std::string& LogInPassw) :
+	m_LogInUName(LogInUName),
+	m_LogInPassw(LogInPassw)
 {
 }
 
@@ -30,12 +30,12 @@ void LogIn::SetLogInPassw(const std::string& password)
 
 User LogIn::LogUser()
 {
-	StorageUsers storage = Storages::getInstance().getUserStorage();
+	Storages::DB storage = Storages::getStorage();
 	if (storage.get_pointer<User>(m_LogInUName) != nullptr)
 	{
 		User currentUser = storage.get<User>(m_LogInUName);
-		if(currentUser.GetPassword() == m_LogInPassw)
-		return currentUser;
+		if (currentUser.GetPassword() == m_LogInPassw)
+			return currentUser;
 		else throw std::exception("Invalid password!");
 	}
 	throw std::exception("User not found!");

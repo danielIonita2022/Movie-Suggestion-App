@@ -1,16 +1,12 @@
 #include "MoviePage.h"
 #include <regex>
-MoviePage::MoviePage(std::shared_ptr<LogIn> logger) :
-	m_logger(logger)
-{
-}
-void MoviePage::ShowDetails()
+void MoviePage::ShowDetails(User currentUser)
 {
 	std::cout << "Search a movie/TV-show: ";
 	std::string title;
 	std::getline(std::cin >> std::ws, title);
 	m_movieList = getMovies(title);
-	if (!m_movieList.empty()) 
+	if (!m_movieList.empty())
 	{
 		std::cout << "Choose the movie/TV-show from the available results: \n";
 		int movieNumber = -1;
@@ -22,7 +18,7 @@ void MoviePage::ShowDetails()
 		int chosenMovieNumber = -1;
 		std::cin >> chosenMovieNumber;
 		Movie movie = m_movieList.at(chosenMovieNumber);
-		std::cout << movie;
+		//std::cout << movie;
 		std::cout << "\nHave you seen this movie/TV-show?\n";
 		std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 		uint16_t character;
@@ -30,7 +26,7 @@ void MoviePage::ShowDetails()
 		if (character == 1)
 		{
 			std::unique_ptr<Seen> film;
-			StorageSeen table = Storages::getInstance().getSeenStorage();
+			Storages::DB table = Storages::getStorage();
 			film = table.get_pointer<Seen>(movie.m_title);
 			if (film == nullptr)
 			{
@@ -38,7 +34,7 @@ void MoviePage::ShowDetails()
 				std::cout << "Press [ 1 ] for YES and [ 0 ] for NO.\n";
 				bool like;
 				std::cin >> like;
-				std::string userName = m_logger->GetLogInUN();
+				std::string userName = currentUser.GetUserName();
 				Seen newSeen(-1, userName, title, like);
 			}
 		}
@@ -46,7 +42,7 @@ void MoviePage::ShowDetails()
 		else
 		{
 			std::unique_ptr<Wishlist> film;
-			StorageWishlists table = Storages::getInstance().getWishlistStorage();
+			Storages::DB table = Storages::getStorage();
 			film = table.get_pointer<Wishlist>(movie.m_title);
 			if (film == nullptr)
 			{
@@ -56,11 +52,12 @@ void MoviePage::ShowDetails()
 				std::cin >> character;
 				if (character == 1)
 				{
-					std::string userName = m_logger->GetLogInUN();
+					std::string userName = currentUser.GetUserName();
 					Wishlist newWish(-1, userName, title);
 				}
 			}
 		}
+		ShowSimilar(movie);
 	}
 }
 int countWordsRegex(const std::string& name)
@@ -84,7 +81,7 @@ void deleteLastWord(std::string& name)
 }
 std::vector<Movie> MoviePage::getMovies(const std::string& name)
 {
-	auto table = Storages::getInstance().getMovieStorage();
+	Storages::DB table = Storages::getStorage();
 	std::vector<Movie> allMovies;
 	std::string incompleteName = name;
 	allMovies = table.get_all<Movie>(sqlite_orm::where
@@ -118,7 +115,7 @@ std::vector<Movie> MoviePage::getMovies(const std::string& name)
 void MoviePage::ShowSimilar(Movie movie)
 {
 	int number = 10;
-	auto table = Storages::getInstance().getMovieStorage();
+	Storages::DB table = Storages::getStorage();
 	std::vector<Movie> allMovies;
 	allMovies = table.get_all<Movie>(sqlite_orm::where
 	(sqlite_orm::like((&Movie::m_type), movie.m_type)));

@@ -157,7 +157,7 @@ void Movie_Page_GUI::retranslateUi()
 
 void Movie_Page_GUI::showDetails(std::string title)
 {
-    auto table = Storages::getInstance().getMovieStorage();
+    auto table = Storages::getStorage();
     auto allMovies = table.get_all<Movie>(sqlite_orm::where
     (sqlite_orm::like((&Movie::m_title), title)));
     

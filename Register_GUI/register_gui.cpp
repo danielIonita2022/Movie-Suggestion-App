@@ -281,6 +281,7 @@ bool Register_GUI::passwordValidation(const std::string& password)
         QMessageBox::warning(this, "Registration failed!", "The password doesn't contain any numbers!");
         return false;
     }
+    return true;
 }
 void Register_GUI::addNewUserToDB()
 {
@@ -299,32 +300,37 @@ void Register_GUI::addNewUserToDB()
         QMessageBox::warning(this, "Registration failed!", "Please fill the required fields!");
         return;
     }
-    if (!passwordValidation(password))
+    if (passwordValidation(password))
     {
-        return;
+        bool drama = checkBoxDrama->isChecked();
+        bool action = checkBoxAction->isChecked();
+        bool sf = checkBoxSF->isChecked();
+        bool thriller = checkBoxThriller->isChecked();
+        bool comedy = checkBoxComedy->isChecked();
+        bool fantasy = checkBoxFantasy->isChecked();
+        bool horror = checkBoxHorror->isChecked();
+        bool adventure = checkBoxAdventure->isChecked();
+        bool animation = checkBoxAnimation->isChecked();
+        bool romance = checkBoxRomance->isChecked();
+        bool mistery = checkBoxMistery->isChecked();
+        uint16_t movieOrTV = -1;
+        if (checkBox_12->isChecked() && !checkBox_13->isChecked())
+            movieOrTV = 0;
+        else if (!checkBox_12->isChecked() && checkBox_13->isChecked())
+            movieOrTV = 1;
+        else movieOrTV = 2;
+
+        User newUser(firstName, lastName, userName, password, favMovie, favActor, drama, action, sf, comedy, thriller, fantasy, animation, horror,
+            romance, mistery, adventure, beginYear, endYear, movieOrTV);
+        Storages::DB storage = Storages::getStorage();
+        storage.replace<User>(newUser);
+        QMessageBox::information(this, "Registration successful!", "You have successfully registered!");
+        pushButton->setEnabled(false);
     }
+    else return;
 
-    bool drama = checkBoxDrama->isChecked();
-    bool action = checkBoxAction->isChecked();
-    bool sf = checkBoxSF->isChecked();
-    bool thriller = checkBoxThriller->isChecked();
-    bool comedy = checkBoxComedy->isChecked();
-    bool fantasy = checkBoxFantasy->isChecked();
-    bool horror = checkBoxHorror->isChecked();
-    bool adventure = checkBoxAdventure->isChecked();
-    bool animation = checkBoxAnimation->isChecked();
-    bool romance = checkBoxRomance->isChecked();
-    bool mistery = checkBoxMistery->isChecked();
-    uint16_t movieOrTV;
-    if (checkBox_12->isChecked() && !checkBox_13->isChecked())
-        movieOrTV = 0;
-    else if (!checkBox_12->isChecked() && checkBox_13->isChecked())
-        movieOrTV = 1;
-    else movieOrTV = 2;
-
-    User newUser(firstName, lastName, userName, password, favMovie, favActor, drama, action, sf, comedy, thriller, fantasy, animation, horror,
-        romance, mistery, adventure, beginYear, endYear, movieOrTV);
-    newUser.UpdateDatabase();
+    
+	//this->close();
 }
 
 

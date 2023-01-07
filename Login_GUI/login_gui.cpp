@@ -146,7 +146,7 @@ void Login_GUI::login()
     std::unique_ptr<User> currentUser = nullptr;
     bool validLogIn = false;
 
-    StorageUsers storage = Storages::getInstance().getUserStorage();
+    Storages::DB storage = Storages::getStorage();
     if (storage.get_pointer<User>(username) != nullptr)
     {
         User&& ref = storage.get<User>(username);

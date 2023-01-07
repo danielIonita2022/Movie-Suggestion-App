@@ -44,11 +44,6 @@ void SearchPage::onSearchButtonClicked()
 		QMessageBox::warning(this, "Search", "Please enter a search term");
 		return;
 	}
-	std::string search = qSearch.toStdString();
-	std::vector<Movie> allMovies = getMovies(search);
-	Movie_Page_GUI* moviePage = new Movie_Page_GUI();
-	moviePage->showDetails(allMovies[0].m_title);
-	moviePage->show();
 }
 
 int SearchPage::countWordsRegex(const std::string& name)
@@ -76,7 +71,7 @@ void SearchPage::deleteLastWord(std::string& name)
 std::vector<Movie> SearchPage::getMovies(const std::string& name)
 {
 	std::ofstream out("file.txt");
-	auto table = Storages::getInstance().getMovieStorage();
+	auto table = Storages::getStorage();
 	std::vector<Movie> allMovies;
 	std::string incompleteName = name;
 	allMovies = table.get_all<Movie>(sqlite_orm::where

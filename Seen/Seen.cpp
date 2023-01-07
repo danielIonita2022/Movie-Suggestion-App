@@ -8,12 +8,5 @@ Seen::Seen() :
 Seen::Seen(int idSeen, std::string userName, std::string movieTitle, bool like) :
 	m_idSeen(idSeen), m_userName(userName), m_movieTitle(movieTitle), m_like(like)
 {
-	UpdateDatabase();
 }
 
-void Seen::UpdateDatabase()
-{
-	auto storage = CreateTable();
-	auto insertedId = storage.insert(*this);
-	m_idSeen = insertedId;
-}

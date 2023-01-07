@@ -1,15 +1,14 @@
 #pragma once
-#include "User.h"
-#include<string>
-#pragma once
 #pragma warning(disable : 4996)
-#include <sqlite_orm/sqlite_orm.h>
+#include "User.h"
 #include "Storages.h"
+#include <string>
+#include <sqlite_orm/sqlite_orm.h>
 
 class LogIn
 {
 public:
-	LogIn()=default;
+	LogIn() = default;
 	LogIn(const std::string& LogInUName, const std::string& LogInPassw);
 
 	std::string GetLogInUN() const;

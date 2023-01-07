@@ -17,6 +17,7 @@
 #include <regex>
 #include <cstdint>
 #include <QCloseEvent>
+#include "Storages.h"
 
 class Register_GUI : public QMainWindow
 {
