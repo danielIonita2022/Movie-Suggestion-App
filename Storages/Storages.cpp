@@ -1,27 +1,53 @@
 #pragma once
 #include "Storages.h"
 
-Storages::Storages()
+Storages::DB Storages::getStorage()
 {
+    static DB db = CreateStorage();
+    return db;
 }
-StorageMovies Storages::getMovieStorage() const
+void Storages::PopulateMovies()
 {
-	return m_storageMovies;
+    if (getStorage().count<Movie>() == 0)
+    {
+        ParsedRow parsedRow;
+        std::ifstream in("netflix_titles.csv");
+        while (in.peek() != std::ifstream::traits_type::eof())
+        {
+            parsedRow.makeParsedRow(in);
+            std::vector<std::string> elements = parsedRow.getParsedRow();
+            Movie movie{
+                 elements[0],
+                 elements[1],
+                 elements[2],
+                 elements[3],
+                 elements[4],
+                 elements[5],
+                 elements[6],
+                 std::stoi(elements[7]),
+                 elements[8],
+                 elements[9],
+                 elements[10],
+                 elements[11],
+            };
+            getStorage().replace<Movie>(movie);
+        }
+    }
 }
-StorageUsers Storages::getUserStorage() const
+
+void Storages::UpdateUsers(const User& user)
 {
-	return m_storageUsers;
+    getStorage().replace<User>(user);
 }
-StorageWishlists Storages::getWishlistStorage() const
+
+void Storages::UpdateSeen(Seen& seen)
 {
-	return m_storageWishlists;
+    auto insertedId = getStorage().insert<Seen>(seen);
+    seen.m_idSeen = insertedId;
 }
-StorageSeen Storages::getSeenStorage() const
+
+void Storages::UpdateWishlist(Wishlist& wishlist)
 {
-	return m_storageSeen;
-}
-Storages& Storages::getInstance()
-{
-	static Storages m_storagesInstance;
-	return m_storagesInstance;
+    auto insertedId = getStorage().insert<Wishlist>(wishlist);
+    wishlist.m_idWishlist = insertedId;
 }
