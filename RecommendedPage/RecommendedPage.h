@@ -95,10 +95,10 @@ inline std::vector<Movie> RecommendedPage::getAllMovies(std::vector<Movie> movie
 inline std::vector<Movie>RecommendedPage::recommendWishlistMovies()
 {
 
-	StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
+	Storages::DB tableWishlist = Storages::getStorage();
 	using namespace sqlite_orm;
 	std::unordered_set<std::string> TypeWishlist;
-	auto tableMovies = Storages::getInstance().getMovieStorage();
+	auto tableMovies = Storages::getStorage();
 	std::vector<Movie> allMovies;
 
 	auto objects = tableWishlist.get_all<Wishlist>();
@@ -139,10 +139,10 @@ inline std::vector<Movie>RecommendedPage::recommendWishlistMovies()
 
 inline std::vector<Movie>RecommendedPage::recommendSeenMovies()
 {
-	StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
+	Storages::DB tableSeen = Storages::getStorage();
 	using namespace sqlite_orm;
 	std::unordered_set<std::string> TypeSeen;
-	auto tableMovies = Storages::getInstance().getMovieStorage();
+	auto tableMovies = Storages::getStorage();
 	std::vector<Movie> allMovies;
 
 	auto objects = tableSeen.get_all<Seen>();
@@ -187,8 +187,8 @@ inline void RecommendedPage::printRecommendation()
 	std::vector<Movie> recommendationsW = RecommendedPage::recommendWishlistMovies();
 	std::vector<Movie> recommendationsS = RecommendedPage::recommendSeenMovies();
 	//recommendationsW.insert(recommendationsW.end(), recommendationsS.begin(), recommendationsS.end());
-	StorageWishlists tableWishlist = Storages::getInstance().getWishlistStorage();
-	StorageSeen tableSeen = Storages::getInstance().getSeenStorage();
+	StorageWishlists tableWishlist = Storages::getStorage();
+	Storages::DB tableSeen = Storages::getStorage();
 	int number = 10;
 	std::array<std::string, 10> titluriW = { "" };
 	std::string recomandareW;
