@@ -98,7 +98,7 @@ void Home_GUI::openUserPage()
     this->hide();
 	m_userPage = new User_Page_GUI();
     m_userPage->show();
-	connect(m_userPage->backToHomePage, &QPushButton::clicked, this, &Home_GUI::onBackToMenuClickedUser);
+    connect(m_userPage->backToHomePage, &QPushButton::clicked, this, &Home_GUI::onBackToMenuClickedUser);
 }
 
 void Home_GUI::onBackToMenuClickedUser()
@@ -129,6 +129,12 @@ void Home_GUI::onSearchButtonClicked()
     m_moviePage->showDetails(allMovies[0].m_title);
     m_moviePage->show();
 	connect(m_moviePage->Back_to_homepage, &QPushButton::clicked, this, &Home_GUI::onBackToMenuClickedMovie);
+}
+
+void Home_GUI::onBackToMenuClickedMovie()
+{
+	m_moviePage->close();
+	this->show();
 }
 
 int Home_GUI::countWordsRegex(const std::string& name)
