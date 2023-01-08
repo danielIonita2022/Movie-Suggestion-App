@@ -112,6 +112,10 @@ void Movie_Page_GUI::setupUi()
     Dislike_button->setObjectName("Dislike_button");
     Dislike_button->setGeometry(QRect(790, 540, 61, 24));
     Dislike_button->setFont(font1);
+	Back_to_homepage = new QPushButton(scrollAreaWidgetContents);
+	Back_to_homepage->setObjectName("Back_to_homepage");
+	Back_to_homepage->setGeometry(QRect(10, 10, 140, 30));
+	Back_to_homepage->setFont(font1);
     Director_text = new QLabel(scrollAreaWidgetContents);
     Director_text->setObjectName("Director_text");
     Director_text->setGeometry(QRect(30, 340, 61, 41));
@@ -152,114 +156,115 @@ void Movie_Page_GUI::retranslateUi()
     Add_to_seen->setText(QCoreApplication::translate("Form", "Mark as seen", nullptr));
     Like_button->setText(QCoreApplication::translate("Form", "Like", nullptr));
     Dislike_button->setText(QCoreApplication::translate("Form", "Dislike", nullptr));
+	Back_to_homepage->setText(QCoreApplication::translate("Form", "Back to home page", nullptr));
     Director_text->setText(QCoreApplication::translate("Form", "Director:", nullptr));
 }
 
 void Movie_Page_GUI::showDetails(std::string title)
 {
-    auto table = Storages::getStorage();
+    auto table = Storages::getInstance().getMovieStorage();
     auto allMovies = table.get_all<Movie>(sqlite_orm::where
     (sqlite_orm::like((&Movie::m_title), title)));
-    
-	for (auto& movie : allMovies)
-	{
-		Movie_Title->setText(QString::fromStdString(movie.m_title));
+
+    for (auto& movie : allMovies)
+    {
+        Movie_Title->setText(QString::fromStdString(movie.m_title));
         if (movie.m_description != "")
         {
-			Movie_Description->setWordWrap(true);
-			Movie_Description->setText(QString::fromStdString(movie.m_description));
-		}
-		else
-		{
-			Movie_Description->setText("No description available");
+            Movie_Description->setWordWrap(true);
+            Movie_Description->setText(QString::fromStdString(movie.m_description));
+        }
+        else
+        {
+            Movie_Description->setText("No description available");
         }
         if (movie.m_director != "")
         {
             Movie_director->setWordWrap(true);
-			Movie_director->setText(QString::fromStdString(movie.m_director));
-		}
+            Movie_director->setText(QString::fromStdString(movie.m_director));
+        }
         else
         {
             Movie_director->setText("N/A");
         }
         if (movie.m_cast != "")
         {
-			Movie_Cast->setWordWrap(true);
-			Movie_Cast->setText(QString::fromStdString(movie.m_cast));
-		}
-		else
-		{
-			Movie_Cast->setText("N/A");
+            Movie_Cast->setWordWrap(true);
+            Movie_Cast->setText(QString::fromStdString(movie.m_cast));
+        }
+        else
+        {
+            Movie_Cast->setText("N/A");
         }
         if (movie.m_country != "")
         {
-			Movie_Country->setWordWrap(true);
+            Movie_Country->setWordWrap(true);
             Movie_Country->setText(QString::fromStdString(movie.m_country));
-		}
-		else
-		{
-			Movie_Country->setText("N/A");
-		}
-		if (movie.m_dateAdded != "")
-		{
-			Movie_date_added->setWordWrap(true);
-			Movie_date_added->setText(QString::fromStdString(movie.m_dateAdded));
-		}
-		else
-		{
-			Movie_date_added->setText("N/A");
-		}
+        }
+        else
+        {
+            Movie_Country->setText("N/A");
+        }
+        if (movie.m_dateAdded != "")
+        {
+            Movie_date_added->setWordWrap(true);
+            Movie_date_added->setText(QString::fromStdString(movie.m_dateAdded));
+        }
+        else
+        {
+            Movie_date_added->setText("N/A");
+        }
         if (movie.m_releaseYear != 0)
         {
             Movie_release_year->setWordWrap(true);
             Movie_release_year->setText(QString::number(movie.m_releaseYear));
         }
-		else
-		{
-			Movie_release_year->setText("N/A");
-		}
-		if (movie.m_duration != "")
-		{
-			Movie_duration->setWordWrap(true);
-			Movie_duration->setText(QString::fromStdString(movie.m_duration));
-		}
-		else
-		{
-			Movie_duration->setText("N/A");
-		}
-		if (movie.m_type != "")
-		{
-			Movie_type->setWordWrap(true);
-			Movie_type->setText(QString::fromStdString(movie.m_type));
-		}
-		else
-		{
-			Movie_type->setText("N/A");
-		}
-		if (movie.m_listedIn != "")
-		{
-			Movie_genres->setWordWrap(true);
-			Movie_genres->setText(QString::fromStdString(movie.m_listedIn));
-		}
-		else
-		{
-			Movie_genres->setText("N/A");
-		}
-		if (movie.m_rating != "")
-		{
-			Movie_rating->setWordWrap(true);
-			Movie_rating->setText(QString::fromStdString(movie.m_rating));
-		}
-		else
-		{
-			Movie_rating->setText("N/A");
-		}
-	}
+        else
+        {
+            Movie_release_year->setText("N/A");
+        }
+        if (movie.m_duration != "")
+        {
+            Movie_duration->setWordWrap(true);
+            Movie_duration->setText(QString::fromStdString(movie.m_duration));
+        }
+        else
+        {
+            Movie_duration->setText("N/A");
+        }
+        if (movie.m_type != "")
+        {
+            Movie_type->setWordWrap(true);
+            Movie_type->setText(QString::fromStdString(movie.m_type));
+        }
+        else
+        {
+            Movie_type->setText("N/A");
+        }
+        if (movie.m_listedIn != "")
+        {
+            Movie_genres->setWordWrap(true);
+            Movie_genres->setText(QString::fromStdString(movie.m_listedIn));
+        }
+        else
+        {
+            Movie_genres->setText("N/A");
+        }
+        if (movie.m_rating != "")
+        {
+            Movie_rating->setWordWrap(true);
+            Movie_rating->setText(QString::fromStdString(movie.m_rating));
+        }
+        else
+        {
+            Movie_rating->setText("N/A");
+        }
+    }
 }
 
 Movie_Page_GUI::Movie_Page_GUI()
 {
-	setupUi();
+    setupUi();
 }
 
 Movie_Page_GUI::~Movie_Page_GUI()
