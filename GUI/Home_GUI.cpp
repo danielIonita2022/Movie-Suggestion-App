@@ -98,6 +98,13 @@ void Home_GUI::openUserPage()
     this->hide();
 	m_userPage = new User_Page_GUI();
     m_userPage->show();
+	connect(m_userPage->backToHomePage, &QPushButton::clicked, this, &Home_GUI::onBackToMenuClickedUser);
+}
+
+void Home_GUI::onBackToMenuClickedUser()
+{
+    m_userPage->close();
+    this->show();
 }
 
 void Home_GUI::openLogin()

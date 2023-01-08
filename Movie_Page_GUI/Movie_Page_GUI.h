@@ -12,7 +12,7 @@
 
 class Movie_Page_GUI : public QWidget
 {
-	//Q_OBJECT
+    //Q_OBJECT
 public:
     QGridLayout* gridLayout;
     QScrollArea* scrollArea;
@@ -40,15 +40,16 @@ public:
     QPushButton* Add_to_seen;
     QPushButton* Like_button;
     QPushButton* Dislike_button;
+	QPushButton* Back_to_homepage;
     QLabel* Director_text;
-    
+
     void setupUi();
     void retranslateUi();
-    
+
     void showDetails(std::string title);
-        
-	Movie_Page_GUI();
-	~Movie_Page_GUI();
+
+    Movie_Page_GUI();
+    ~Movie_Page_GUI();
 private:
 };
 
