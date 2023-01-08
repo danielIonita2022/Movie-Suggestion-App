@@ -66,5 +66,50 @@ namespace PasswordValidator {
         }
     }
 
-    
+    namespace RegexPasswordValidation {
+
+        bool verifyUpperCase(std::string password)
+        {
+            if (!std::regex_search(password, std::regex("[A-Z]+")))
+            {
+                // std::cout << "The password doesn't contain any uppercase letters!\nPlease try again.\n";
+                return false;
+            }
+            return true;
+        }
+
+        bool verifyLowerCase(std::string password)
+        {
+            if (!std::regex_search(password, std::regex("[a-z]+")))
+            {
+                // std::cout << "The password doesn't contain any lowercase letters!\nPlease try again.\n";
+                return false;
+            }
+            return true;
+        }
+
+        bool verifyIsDigit(std::string password)
+        {
+            if (!std::regex_search(password, std::regex("[0-9]+")))
+            {
+                // std::cout << "The password doesn't contain any numbers!\nPlease try again.\n";
+                return false;
+            }
+            return true;
+        }
+
+        bool passwordValidation(std::string password)
+        {
+            if (PasswordValidator::verifySize(password) == false) return false;
+
+            if (verifyUpperCase(password) == false) return false;
+
+            if (verifyLowerCase(password) == false) return false;
+
+            if (verifyIsDigit(password) == false) return false;
+
+            // std::cout << "The password is valid!\n";
+            return true;
+        }
+    }
 }
