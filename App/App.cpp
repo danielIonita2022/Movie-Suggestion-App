@@ -30,6 +30,103 @@ bool App::passwordValidation(std::string password)
 	return true;
 }
 
+void message(uint16_t& character)
+{
+	std::cout << "WELCOME TO OUR MOVIE RECOMANDATION PAGE!" << '\n';
+	std::cout << '\n';
+	std::cout << "Please press key [ 0 ] if you want to REGISTER else please press key [ 1 ] if you want to LOG IN your account:" << '\n';
+	std::cout << '\n';
+	//if 0 then follows Register, if 1 then follows LogIn, in any other case throw ERROR
+	std::cin >> character;
+	std::cin.get();
+	std::cout << '\n';
+}
+
+void registerCharacteristics(std::string& firstName, std::string& lastName, std::string& userName, std::string& password)
+{
+	std::cout << "Enter your first name:" << '\n';
+	std::getline(std::cin, firstName);
+	std::cout << "Enter your last name:" << '\n';
+	std::getline(std::cin, lastName);
+	std::cout << "Enter the username you want to use on this app:" << '\n';
+	std::getline(std::cin, userName);
+	std::cout << "Enter the password you want to use on this app (The password should be at least 8 characters long, have at least one uppercase letter, one lowercase letter and one number):" << '\n';
+	std::getline(std::cin, password);
+}
+
+void loggerCharacteristics(std::string& UserName, std::string& Password)
+{
+	std::cout << "Enter your username:" << '\n';
+	std::getline(std::cin, UserName);
+	std::cout << "Enter your password:" << '\n';
+	std::getline(std::cin, Password);
+}
+
+void genres(bool& drama, bool& action, bool& SF, bool& comedy, bool& thriller, bool& fantasy, bool& animation,
+	bool& horror, bool& romance, bool& mistery, bool& adventure)
+{
+	std::cout << "3. Which one of these do you prefer? " << '\n';
+	std::cout << "Please select [ 0 ] if you don't like this genre and [ 1 ] if you do." << '\n';
+	std::cout << "-drama" << '\n';
+	std::cin >> drama;
+	std::cout << "-action" << '\n';
+	std::cin >> action;
+	std::cout << "-SF" << '\n';
+	std::cin >> SF;
+	std::cout << "-comedy" << '\n';
+	std::cin >> comedy;
+	std::cout << "-thriller" << '\n';
+	std::cin >> thriller;
+	std::cout << "-fantasy" << '\n';
+	std::cin >> fantasy;
+	std::cout << "-animation" << '\n';
+	std::cin >> animation;
+	std::cout << "-horror" << '\n';
+	std::cin >> horror;
+	std::cout << "-romance" << '\n';
+	std::cin >> romance;
+	std::cout << "-mistery" << '\n';
+	std::cin >> mistery;
+	std::cout << "-adventure" << '\n';
+	std::cin >> adventure;
+}
+
+void favMovieAndActor(std::string& favMovie, std::string& favActor)
+{
+	std::cout << "1. What is your favourite movie?" << '\n';
+	std::getline(std::cin, favMovie);
+	std::cout << "2. Who is your favourite actor/actress?" << '\n';
+	std::getline(std::cin, favActor);
+}
+
+void YearOfReleasing(bool& releaseYear, uint16_t& year1, uint16_t& year2)
+{
+	std::cout << "4. Does the release year matter to you? " << '\n';
+	std::cout << "Please select [ 0 ] if it doesn't and [ 1 ] if it does." << '\n';
+	std::cin >> releaseYear;
+	if (releaseYear == 1)
+	{
+		std::cout << "Please introduce years between 1960 and 2022." << '\n';
+		std::cout << "I like movies from " << '\n';
+		std::cin >> year1;
+		std::cout << "to " << '\n';
+		std::cin >> year2;
+	}
+	else
+	{
+		year1 = 0;
+		year2 = 0;
+	}
+}
+
+void MoviesOrSeries(uint16_t& movieSeries)
+{
+	std::cout << "5. Which one do you prefer more? Movies or TV-Shows? " << '\n';
+	std::cout << "Please press [ 0 ] if you prefer MOVIES, press [ 1 ] if you prefer TV-SHOWS or press [ 2 ] if you prefer BOTH. " << '\n';
+	std::cin >> movieSeries;
+}
+
+
 App::App()
 {
 	std::cout << "WELCOME TO OUR MOVIE RECOMANDATION PAGE!" << '\n';
