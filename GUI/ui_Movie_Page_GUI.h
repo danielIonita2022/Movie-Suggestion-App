@@ -10,19 +10,23 @@
 #define UI_MOVIE_PAGE_GUI_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
-class Ui_Form
+class Ui_Movie
 {
 public:
-    QGridLayout *gridLayout;
+    QAction *actionHome;
+    QAction *actionMy_profile;
+    QAction *actionSign_Out;
+    QWidget *centralwidget;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QLabel *Movie_Title;
@@ -49,23 +53,32 @@ public:
     QPushButton *Like_button;
     QPushButton *Dislike_button;
     QLabel *Director_text;
+    QPushButton *Back_to_homepage;
+    QPushButton *Get_sim_mov_ser;
 
-    void setupUi(QWidget *Form)
+    void setupUi(QMainWindow *Movie)
     {
-        if (Form->objectName().isEmpty())
-            Form->setObjectName("Form");
-        Form->resize(960, 606);
-        gridLayout = new QGridLayout(Form);
-        gridLayout->setObjectName("gridLayout");
-        scrollArea = new QScrollArea(Form);
+        if (Movie->objectName().isEmpty())
+            Movie->setObjectName("Movie");
+        Movie->resize(942, 587);
+        actionHome = new QAction(Movie);
+        actionHome->setObjectName("actionHome");
+        actionMy_profile = new QAction(Movie);
+        actionMy_profile->setObjectName("actionMy_profile");
+        actionSign_Out = new QAction(Movie);
+        actionSign_Out->setObjectName("actionSign_Out");
+        centralwidget = new QWidget(Movie);
+        centralwidget->setObjectName("centralwidget");
+        scrollArea = new QScrollArea(centralwidget);
         scrollArea->setObjectName("scrollArea");
+        scrollArea->setGeometry(QRect(0, 0, 942, 588));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
         scrollAreaWidgetContents->setGeometry(QRect(0, 0, 940, 586));
         Movie_Title = new QLabel(scrollAreaWidgetContents);
         Movie_Title->setObjectName("Movie_Title");
-        Movie_Title->setGeometry(QRect(280, 10, 381, 61));
+        Movie_Title->setGeometry(QRect(260, 10, 381, 61));
         QFont font;
         font.setFamilies({QString::fromUtf8("Terminal")});
         font.setPointSize(14);
@@ -166,49 +179,60 @@ public:
         Director_text->setObjectName("Director_text");
         Director_text->setGeometry(QRect(30, 340, 61, 41));
         Director_text->setFont(font1);
+        Back_to_homepage = new QPushButton(scrollAreaWidgetContents);
+        Back_to_homepage->setObjectName("Back_to_homepage");
+        Back_to_homepage->setGeometry(QRect(10, 10, 131, 31));
+        Back_to_homepage->setFont(font1);
+        Get_sim_mov_ser = new QPushButton(scrollAreaWidgetContents);
+        Get_sim_mov_ser->setObjectName("Get_sim_mov_ser");
+        Get_sim_mov_ser->setGeometry(QRect(470, 540, 171, 31));
+        Get_sim_mov_ser->setFont(font1);
         scrollArea->setWidget(scrollAreaWidgetContents);
+        Movie->setCentralWidget(centralwidget);
 
-        gridLayout->addWidget(scrollArea, 0, 0, 1, 1);
+        retranslateUi(Movie);
 
-
-        retranslateUi(Form);
-
-        QMetaObject::connectSlotsByName(Form);
+        QMetaObject::connectSlotsByName(Movie);
     } // setupUi
 
-    void retranslateUi(QWidget *Form)
+    void retranslateUi(QMainWindow *Movie)
     {
-        Form->setWindowTitle(QCoreApplication::translate("Form", "Form", nullptr));
+        Movie->setWindowTitle(QCoreApplication::translate("Movie", "MainWindow", nullptr));
+        actionHome->setText(QCoreApplication::translate("Movie", "Home", nullptr));
+        actionMy_profile->setText(QCoreApplication::translate("Movie", "My profile", nullptr));
+        actionSign_Out->setText(QCoreApplication::translate("Movie", "Sign Out", nullptr));
         Movie_Title->setText(QString());
         Movie_Description->setText(QString());
         Movie_director->setText(QString());
         Movie_Cast->setText(QString());
-        Cast_text->setText(QCoreApplication::translate("Form", "Cast:", nullptr));
-        Country_text->setText(QCoreApplication::translate("Form", "Country:", nullptr));
+        Cast_text->setText(QCoreApplication::translate("Movie", "Cast:", nullptr));
+        Country_text->setText(QCoreApplication::translate("Movie", "Country:", nullptr));
         Movie_Country->setText(QString());
-        Date_added_text->setText(QCoreApplication::translate("Form", "Date added:", nullptr));
+        Date_added_text->setText(QCoreApplication::translate("Movie", "Date added:", nullptr));
         Movie_date_added->setText(QString());
-        Release_year_text->setText(QCoreApplication::translate("Form", "Release year:", nullptr));
+        Release_year_text->setText(QCoreApplication::translate("Movie", "Release year:", nullptr));
         Movie_release_year->setText(QString());
-        Duration_text->setText(QCoreApplication::translate("Form", "Duration:", nullptr));
-        Type_text->setText(QCoreApplication::translate("Form", "Type:", nullptr));
+        Duration_text->setText(QCoreApplication::translate("Movie", "Duration:", nullptr));
+        Type_text->setText(QCoreApplication::translate("Movie", "Type:", nullptr));
         Movie_type->setText(QString());
         Movie_duration->setText(QString());
-        Genres_text->setText(QCoreApplication::translate("Form", "Genres:", nullptr));
+        Genres_text->setText(QCoreApplication::translate("Movie", "Genres:", nullptr));
         Movie_genres->setText(QString());
-        Rating_text->setText(QCoreApplication::translate("Form", "Rating:", nullptr));
+        Rating_text->setText(QCoreApplication::translate("Movie", "Rating:", nullptr));
         Movie_rating->setText(QString());
-        Add_to_wishlist->setText(QCoreApplication::translate("Form", "Add to Wishlist", nullptr));
-        Add_to_seen->setText(QCoreApplication::translate("Form", "Mark as seen", nullptr));
-        Like_button->setText(QCoreApplication::translate("Form", "Like", nullptr));
-        Dislike_button->setText(QCoreApplication::translate("Form", "Dislike", nullptr));
-        Director_text->setText(QCoreApplication::translate("Form", "Director:", nullptr));
+        Add_to_wishlist->setText(QCoreApplication::translate("Movie", "Add to Wishlist", nullptr));
+        Add_to_seen->setText(QCoreApplication::translate("Movie", "Mark as seen", nullptr));
+        Like_button->setText(QCoreApplication::translate("Movie", "Like", nullptr));
+        Dislike_button->setText(QCoreApplication::translate("Movie", "Dislike", nullptr));
+        Director_text->setText(QCoreApplication::translate("Movie", "Director:", nullptr));
+        Back_to_homepage->setText(QCoreApplication::translate("Movie", "Back to homepage", nullptr));
+        Get_sim_mov_ser->setText(QCoreApplication::translate("Movie", "Get similar movies/series", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class Form: public Ui_Form {};
+    class Movie: public Ui_Movie {};
 } // namespace Ui
 
 QT_END_NAMESPACE
