@@ -1,21 +1,28 @@
 #pragma once
 
-#include <QWidget>
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets>
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "Storages.h"
+#include "SimilarMovies.h"
 
-class Movie_Page_GUI : public QWidget
+class Movie_Page_GUI : public QMainWindow
 {
-    //Q_OBJECT
+        
 public:
     QGridLayout* gridLayout;
     QScrollArea* scrollArea;
+    QWidget* centralwidget;
     QWidget* scrollAreaWidgetContents;
     QLabel* Movie_Title;
     QLabel* Movie_Description;
@@ -40,16 +47,29 @@ public:
     QPushButton* Add_to_seen;
     QPushButton* Like_button;
     QPushButton* Dislike_button;
-	QPushButton* Back_to_homepage;
     QLabel* Director_text;
+    QPushButton* Back_to_homepage;
+    QPushButton* Get_sim_mov_ser;
 
     void setupUi();
     void retranslateUi();
+    bool alreadySeen();
+    bool alreadyWishlisted();
+	void onAddToWishlistClicked();
+	void onAddToSeenClicked();
+    void onGetSimilarMoviesClicked();
+    Seen findSeenMovie(const Storages& storage);
+    void onLikeClicked();
+	void onDislikeClicked();
+    void onBackToMoviePage();
+    void showDetails();
 
-    void showDetails(std::string title);
-
-    Movie_Page_GUI();
+    Movie_Page_GUI(const User&& user, const Movie& movie);
     ~Movie_Page_GUI();
+    
 private:
+    User m_currentUser;
+	Movie m_movie;
+	SimilarMovies* m_similarMovies;
 };
 

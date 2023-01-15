@@ -1,5 +1,10 @@
 #include "Movie_Page_GUI.h"
 
+Movie_Page_GUI::Movie_Page_GUI()
+{
+    setupUi();
+}
+
 void Movie_Page_GUI::setupUi()
 {
     if (objectName().isEmpty())
@@ -262,9 +267,30 @@ void Movie_Page_GUI::showDetails(std::string title)
     }
 }
 
-Movie_Page_GUI::Movie_Page_GUI()
+bool Movie_Page_GUI::alreadySeen()
 {
-    setupUi();
+    Storages storage;
+    Storages::DB db = storage.getStorage();
+    auto entries = db.get_all<Seen>(where(like((&Seen::m_userName), m_currentUser.GetUsername()) &&
+        (like((&Seen::m_movieTitle), m_movie.m_title))));
+    if (entries.size() != 0)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Movie_Page_GUI::alreadyWishlisted()
+{
+    Storages storage;
+    Storages::DB db = storage.getStorage();
+    auto entries = db.get_all<Wishlist>(where(like((&Wishlist::m_userName), m_currentUser.GetUsername()) &&
+        (like((&Wishlist::m_movieTitle), m_movie.m_title))));
+    if (entries.size() != 0)
+    {
+        return true;
+    }
+    return false;
 }
 
 Movie_Page_GUI::~Movie_Page_GUI()
