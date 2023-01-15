@@ -14,6 +14,19 @@ void analyzePasswDigitRegex(const std::vector<User>& users);
 
 int main()
 {
+    {
+        Storages::DB tableUser = Storages::getStorage();
+        using namespace sqlite_orm;
+        const std::vector<User> users = tableUser.get_all<User>();
+        Instrumentor::Get().BeginSession("Profiling");
+        analyzePasswUpperCaseCustom(users);
+        analyzePasswUpperCaseRegex(users);
+        analyzePasswLowerCaseCustom(users);
+        analyzePasswLowerCaseRegex(users);
+        analyzePasswDigitCustom(users);
+        analyzePasswDigitRegex(users);
+        Instrumentor::Get().EndSession();
+    }
     App app;
     return 0;
 }
