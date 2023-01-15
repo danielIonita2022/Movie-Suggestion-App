@@ -50,7 +50,7 @@ void User::SetLastName(const std::string& lastName)
 	m_lastName = lastName;
 }
 
-std::string User::GetUserName() const
+std::string User::GetUsername() const
 {
 	return m_userName;
 }
@@ -135,6 +135,61 @@ bool User::GetAdventure() const
 	return m_adventure;
 }
 
+void User::SetDrama(const bool& drama)
+{
+	m_drama = drama;
+}
+
+void User::SetAction(const bool& action)
+{
+	m_action = action;
+}
+
+void User::SetSF(const bool& sf)
+{
+	m_SF = sf;
+}
+
+void User::SetComedy(const bool& comedy)
+{
+	m_comedy = comedy;
+}
+
+void User::SetThriller(const bool& thriller)
+{
+	m_thriller = thriller;
+}
+
+void User::SetFantasy(const bool& fantasy)
+{
+	m_fantasy = fantasy;
+}
+
+void User::SetAnimation(const bool& animation)
+{
+	m_animation = animation;
+}
+
+void User::SetHorror(const bool& horror)
+{
+	m_horror = horror;
+}
+
+void User::SetRomance(const bool& romance)
+{
+	m_romance = romance;
+}
+
+void User::SetMistery(const bool& mistery)
+{
+	m_mistery = mistery;
+}
+
+void User::SetAdventure(const bool& adventure)
+{
+	m_adventure = adventure;
+}
+
 uint16_t User::GetYear1() const
 {
 	return m_year1;
@@ -148,4 +203,9 @@ uint16_t User::GetYear2() const
 uint16_t User::GetMovieSeries() const
 {
 	return m_movieSeries;
+}
+
+void User::SetMovieSeries(const uint16_t& movieSeries)
+{
+	m_movieSeries = movieSeries;
 }

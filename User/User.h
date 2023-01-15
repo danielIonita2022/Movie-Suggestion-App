@@ -26,7 +26,7 @@ public:
 	void SetFirstName(const std::string& firstName);
 	std::string GetLastName() const;
 	void SetLastName(const std::string& lastName);
-	std::string GetUserName() const;
+	std::string GetUsername() const;
 	void SetUserName(const std::string& userName);
 	std::string GetPassword() const;
 	void SetPassword(const std::string& password);
@@ -43,9 +43,21 @@ public:
 	bool GetRomance() const;
 	bool GetMistery() const;
 	bool GetAdventure() const;
+	void SetDrama(const bool& drama);
+	void SetAction(const bool& action);
+	void SetSF(const bool& sf);
+	void SetComedy(const bool& comedy);
+	void SetThriller(const bool& thriller);
+	void SetFantasy(const bool& fantasy);
+	void SetAnimation(const bool& animation);
+	void SetHorror(const bool& horror);
+	void SetRomance(const bool& romance);
+	void SetMistery(const bool& mistery);
+	void SetAdventure(const bool& adventure);
 	uint16_t GetYear1() const;
 	uint16_t GetYear2() const;
 	uint16_t GetMovieSeries() const;
+	void SetMovieSeries(const uint16_t& movieSeries);
 
 	~User() = default;
 
