@@ -1,13 +1,20 @@
-#include "login_gui.h"
-#include "Wishlist_GUI.h"
-#include <QtWidgets/QApplication>
-#include "Recommended.h"
+#pragma once
+#include "App.h"
+#include "MoviePage.h"
+#include "Instrumentor.h"
+#include "PasswordValidator.h"
+#include <iostream>
 
-int main(int argc, char* argv[])
+void analyzePasswUpperCaseCustom(const std::vector<User>& users);
+void analyzePasswUpperCaseRegex(const std::vector<User>& users);
+void analyzePasswLowerCaseCustom(const std::vector<User>& users);
+void analyzePasswLowerCaseRegex(const std::vector<User>& users);
+void analyzePasswDigitCustom(const std::vector<User>& users);
+void analyzePasswDigitRegex(const std::vector<User>& users);
+
+int main()
 {
-    QApplication a(argc, argv);
-    Storages::PopulateMovies();
-    Login_GUI w;
-    w.show();
-    return a.exec();
+    App app;
+    return 0;
 }
+
