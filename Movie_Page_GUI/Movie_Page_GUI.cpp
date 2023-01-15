@@ -293,5 +293,48 @@ bool Movie_Page_GUI::alreadyWishlisted()
     return false;
 }
 
+void Movie_Page_GUI::onAddToSeenClicked() 
+{
+    if (alreadySeen())
+    {
+        QMessageBox::warning(this, "Error", "You have already seen this movie!");
+        return;
+    }
+    else
+    {
+        Storages storage;
+        if (alreadyWishlisted())
+        {
+			storage.DeleteWishlist(m_currentUser.GetUsername(), m_movie.m_title);
+        }
+        Seen newSeen(m_currentUser.GetUsername(), m_movie.m_title, true);
+        storage.InsertSeen(newSeen);
+        Like_button->setEnabled(true);
+        Dislike_button->setEnabled(true);
+        QMessageBox::information(this, "Success", "Movie added to seen list!");
+    }
+}
+
+void Movie_Page_GUI::onAddToWishlistClicked()
+{
+    if (alreadySeen())
+    {
+        QMessageBox::warning(this, "Error", "You have already seen this movie!");
+        return;
+    }
+    else if (alreadyWishlisted())
+    {
+        QMessageBox::warning(this, "Error", "You have already wishlisted this movie!!");
+        return;
+    }
+    else
+    {
+        Wishlist newWishlist(m_currentUser.GetUsername(), m_movie.m_title);
+        Storages storage;
+        storage.InsertWishlist(newWishlist);
+        QMessageBox::information(this, "Success", "Movie added to wishlist!");
+    }
+}
+
 Movie_Page_GUI::~Movie_Page_GUI()
 {}
