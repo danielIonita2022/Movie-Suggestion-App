@@ -1,6 +1,4 @@
 #include "login_gui.h"
-#include "register_gui.h"
-#include <QMessageBox>
 
 Login_GUI::Login_GUI()
 {
@@ -125,7 +123,7 @@ void Login_GUI::setupUi()
 }
 void Login_GUI::retranslateUi()
 {
-    setWindowTitle(QCoreApplication::translate("Login_GUI", "Login_GUI", nullptr));
+    setWindowTitle(QCoreApplication::translate("Login_GUI", "Movie App", nullptr));
     groupBox->setTitle(QString());
     pushButton_login->setText(QCoreApplication::translate("Login_GUI", "Log In", nullptr));
     label_username->setText(QCoreApplication::translate("Login_GUI", "Username", nullptr));
@@ -143,36 +141,34 @@ void Login_GUI::login()
     std::string username = qUsername.toStdString();
     std::string password = qPassword.toStdString();
 
-    std::unique_ptr<User> currentUser = nullptr;
+    User currentUser;
     bool validLogIn = false;
 
     Storages::DB storage = Storages::getStorage();
     if (storage.get_pointer<User>(username) != nullptr)
     {
-        User&& ref = storage.get<User>(username);
-        currentUser.reset(&ref);
-        if (currentUser->GetPassword() == password)
+        User&& tempUser = storage.get<User>(username);
+        if (tempUser.GetPassword() == password)
         {
             QMessageBox::information(this, "Login Successful", "Welcome, " + qUsername + "!");
             validLogIn = true;
+            currentUser = tempUser;
         }
         else
         {
             QMessageBox::warning(this, "Login Failed!", "Invalid password. Please try again");
-            currentUser.release();
         }
     }
     else
     {
         QMessageBox::warning(this, "Login Failed!", "Please enter a valid user!");
-        currentUser.release();
     }
     if (validLogIn)
     {
         hide();
         pushButton_signup->setEnabled(false);
         pushButton_login->setEnabled(false);
-        SearchPage* searchPage = new SearchPage(currentUser.release());
+		Home_GUI* searchPage = new Home_GUI(std::move(currentUser));
         searchPage->show();
     }
 }
