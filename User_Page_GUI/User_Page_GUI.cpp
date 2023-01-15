@@ -1,5 +1,14 @@
 #include "User_Page_GUI.h"
 
+User_Page_GUI::User_Page_GUI(const User&& user, QWidget* parent) : m_currentUser(user)
+{
+    setupUi();
+    showDetails();
+	connect(saveButton, &QPushButton::clicked, this, &User_Page_GUI::onSaveButtonClicked);
+	connect(seenMovieButton, &QPushButton::clicked, this, &User_Page_GUI::onSeenButtonClicked);
+	connect(wishMovieButton, &QPushButton::clicked, this, &User_Page_GUI::onWishButtonClicked);
+}
+
 void User_Page_GUI::setupUi()
 {
     if (objectName().isEmpty())
@@ -26,29 +35,29 @@ void User_Page_GUI::setupUi()
 
     gridLayout_2->addWidget(checkBox_6, 3, 1, 1, 1);
 
-    pushButton = new QPushButton(scrollAreaWidgetContents);
-    pushButton->setObjectName("pushButton");
+    saveButton = new QPushButton(scrollAreaWidgetContents);
+    saveButton->setObjectName("saveButton");
     QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
-    sizePolicy.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
-    pushButton->setSizePolicy(sizePolicy);
-    pushButton->setMinimumSize(QSize(0, 0));
-    pushButton->setSizeIncrement(QSize(0, 0));
+    sizePolicy.setHeightForWidth(saveButton->sizePolicy().hasHeightForWidth());
+    saveButton->setSizePolicy(sizePolicy);
+    saveButton->setMinimumSize(QSize(0, 0));
+    saveButton->setSizeIncrement(QSize(0, 0));
     QFont font1;
     font1.setFamilies({ QString::fromUtf8("Cambria") });
     font1.setPointSize(11);
     font1.setKerning(true);
     font1.setStyleStrategy(QFont::PreferDefault);
-    pushButton->setFont(font1);
-    pushButton->setCursor(QCursor(Qt::PointingHandCursor));
-    pushButton->setLayoutDirection(Qt::LeftToRight);
-    pushButton->setAutoFillBackground(false);
-    pushButton->setAutoRepeatDelay(300);
-    pushButton->setAutoDefault(true);
-    pushButton->setFlat(false);
+    saveButton->setFont(font1);
+    saveButton->setCursor(QCursor(Qt::PointingHandCursor));
+    saveButton->setLayoutDirection(Qt::LeftToRight);
+    saveButton->setAutoFillBackground(false);
+    saveButton->setAutoRepeatDelay(300);
+    saveButton->setAutoDefault(true);
+    saveButton->setFlat(false);
 
-    gridLayout_2->addWidget(pushButton, 6, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    gridLayout_2->addWidget(saveButton, 6, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
 
     label_6 = new QLabel(scrollAreaWidgetContents);
     label_6->setObjectName("label_6");
@@ -86,19 +95,19 @@ void User_Page_GUI::setupUi()
 
     gridLayout_2->addWidget(checkBox_2, 2, 1, 1, 1);
 
-    pushButton_3 = new QPushButton(scrollAreaWidgetContents);
-    pushButton_3->setObjectName("pushButton_3");
-    pushButton_3->setFont(font);
-    pushButton_3->setCursor(QCursor(Qt::PointingHandCursor));
+    wishMovieButton = new QPushButton(scrollAreaWidgetContents);
+    wishMovieButton->setObjectName("wishMovieButton");
+    wishMovieButton->setFont(font);
+    wishMovieButton->setCursor(QCursor(Qt::PointingHandCursor));
 
-    gridLayout_2->addWidget(pushButton_3, 9, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
-    
+    gridLayout_2->addWidget(wishMovieButton, 9, 2, 1, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+
     backToHomePage = new QPushButton(scrollAreaWidgetContents);
     backToHomePage->setObjectName("backToMenu");
     backToHomePage->setFont(font);
     backToHomePage->setCursor(QCursor(Qt::PointingHandCursor));
 
-	gridLayout_2->addWidget(backToHomePage, 9, 2, 3, 1, Qt::AlignHCenter | Qt::AlignVCenter);
+    gridLayout_2->addWidget(backToHomePage, 9, 2, 3, 1, Qt::AlignHCenter | Qt::AlignVCenter);
 
     checkBox_8 = new QCheckBox(scrollAreaWidgetContents);
     checkBox_8->setObjectName("checkBox_8");
@@ -302,12 +311,12 @@ void User_Page_GUI::setupUi()
 
     gridLayout_2->addWidget(checkBox_3, 2, 2, 1, 1);
 
-    pushButton_2 = new QPushButton(scrollAreaWidgetContents);
-    pushButton_2->setObjectName("pushButton_2");
-    pushButton_2->setFont(font);
-    pushButton_2->setCursor(QCursor(Qt::PointingHandCursor));
+    seenMovieButton = new QPushButton(scrollAreaWidgetContents);
+    seenMovieButton->setObjectName("seenMovieButton");
+    seenMovieButton->setFont(font);
+    seenMovieButton->setCursor(QCursor(Qt::PointingHandCursor));
 
-    gridLayout_2->addWidget(pushButton_2, 7, 2, 1, 1);
+    gridLayout_2->addWidget(seenMovieButton, 7, 2, 1, 1);
 
     scrollArea->setWidget(scrollAreaWidgetContents);
 
@@ -321,7 +330,7 @@ void User_Page_GUI::setupUi()
 
     retranslateUi();
 
-    pushButton->setDefault(false);
+    saveButton->setDefault(false);
 
 
     QMetaObject::connectSlotsByName(this);
@@ -329,15 +338,15 @@ void User_Page_GUI::setupUi()
 
 void User_Page_GUI::retranslateUi()
 {
-    setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+    setWindowTitle(QCoreApplication::translate("MainWindow", "Your Profile", nullptr));
     checkBox_6->setText(QCoreApplication::translate("MainWindow", "fantasy", nullptr));
-    pushButton->setText(QCoreApplication::translate("MainWindow", "Save changes", nullptr));
+    saveButton->setText(QCoreApplication::translate("MainWindow", "Save changes", nullptr));
     label_6->setText(QCoreApplication::translate("MainWindow", "Favorite genres:", nullptr));
     checkBox_5->setText(QCoreApplication::translate("MainWindow", "thriller", nullptr));
     checkBox_7->setText(QCoreApplication::translate("MainWindow", "animation", nullptr));
     checkBox->setText(QCoreApplication::translate("MainWindow", "drama", nullptr));
     checkBox_2->setText(QCoreApplication::translate("MainWindow", "action", nullptr));
-    pushButton_3->setText(QCoreApplication::translate("MainWindow", "Wishlist", nullptr));
+    wishMovieButton->setText(QCoreApplication::translate("MainWindow", "Wishlist", nullptr));
     checkBox_8->setText(QCoreApplication::translate("MainWindow", "horror", nullptr));
     checkBox_9->setText(QCoreApplication::translate("MainWindow", "romance", nullptr));
     checkBox_4->setText(QCoreApplication::translate("MainWindow", "comedy", nullptr));
@@ -357,73 +366,125 @@ void User_Page_GUI::retranslateUi()
     label_5->setText(QCoreApplication::translate("MainWindow", "Favorite Actor/Actress:", nullptr));
     checkBox_11->setText(QCoreApplication::translate("MainWindow", "adventure", nullptr));
     checkBox_3->setText(QCoreApplication::translate("MainWindow", "SF", nullptr));
-    pushButton_2->setText(QCoreApplication::translate("MainWindow", "Seen movies or TV-shows", nullptr));
-	backToHomePage->setText(QCoreApplication::translate("MainWindow", "Back to home page", nullptr));
+    seenMovieButton->setText(QCoreApplication::translate("MainWindow", "Seen movies or TV-shows", nullptr));
+    backToHomePage->setText(QCoreApplication::translate("MainWindow", "Back to home page", nullptr));
+}
+
+void User_Page_GUI::onSaveButtonClicked()
+{
+    m_currentUser.SetDrama(checkBox->isChecked());
+	m_currentUser.SetAction(checkBox_2->isChecked());
+	m_currentUser.SetComedy(checkBox_4->isChecked());
+	m_currentUser.SetThriller(checkBox_5->isChecked());
+	m_currentUser.SetFantasy(checkBox_6->isChecked());
+	m_currentUser.SetAnimation(checkBox_7->isChecked());
+	m_currentUser.SetHorror(checkBox_8->isChecked());
+	m_currentUser.SetRomance(checkBox_9->isChecked());
+	m_currentUser.SetMistery(checkBox_10->isChecked());
+	m_currentUser.SetAdventure(checkBox_11->isChecked());
+	m_currentUser.SetSF(checkBox_3->isChecked());
+    if (checkBox_12->isChecked() && checkBox_13->isChecked())
+    {
+        m_currentUser.SetMovieSeries(2);
+    }
+    else if (checkBox_13->isChecked())
+    {
+        m_currentUser.SetMovieSeries(1);
+    }
+	else m_currentUser.SetMovieSeries(0);
+    
+	Storages::InsertUser(m_currentUser);
+	QMessageBox::information(this, "Success", "Changes saved!");
+}
+
+void User_Page_GUI::onSeenButtonClicked()
+{
+    hide();
+    m_seenMovies = new SeenMovies(std::move(m_currentUser));
+    m_seenMovies->show();
+    connect(m_seenMovies->BackToUserPage, &QPushButton::clicked, this, &User_Page_GUI::onBackToUserClickedSeen);
+}
+
+void User_Page_GUI::onWishButtonClicked()
+{
+    hide();
+    m_wishlistPage = new WishlistPage(std::move(m_currentUser));
+    m_wishlistPage->show();
+    connect(m_wishlistPage->BackToUserPage, &QPushButton::clicked, this, &User_Page_GUI::onBackToUserClickedWish);
+}
+
+void User_Page_GUI::onBackToUserClickedSeen()
+{
+    m_seenMovies->hide();
+    show();
+}
+
+void User_Page_GUI::onBackToUserClickedWish()
+{
+    m_wishlistPage->hide();
+    show();
 }
 
 void User_Page_GUI::showDetails()
 {
     auto table = Storages::getStorage();
-    auto user = table.get_pointer<User>("lmarica");
-
-    lineEdit->setText(QString::fromStdString(user->GetUserName()));
-    lineEdit_2->setText(QString::fromStdString(user->GetFirstName()));
-    lineEdit_3->setText(QString::fromStdString(user->GetLastName()));
-    lineEdit_4->setText(QString::fromStdString(user->GetFavMovie()));
-    lineEdit_5->setText(QString::fromStdString(user->GetFavActor()));
-    if (!user->GetYear1() && !user->GetYear2())
+	std::unique_ptr<User> user = std::make_unique<User>
+        (table.get<User>(m_currentUser.GetUsername()));
+    if (user != nullptr)
     {
-        lineEdit_7->setText(QString::fromStdString("N/A"));
-        lineEdit_8->setText(QString::fromStdString("N/A"));
+        lineEdit->setText(QString::fromStdString(user->GetUsername()));
+        lineEdit_2->setText(QString::fromStdString(user->GetFirstName()));
+        lineEdit_3->setText(QString::fromStdString(user->GetLastName()));
+        lineEdit_4->setText(QString::fromStdString(user->GetFavMovie()));
+        lineEdit_5->setText(QString::fromStdString(user->GetFavActor()));
+        if (!user->GetYear1() && !user->GetYear2())
+        {
+            lineEdit_7->setText(QString::fromStdString("N/A"));
+            lineEdit_8->setText(QString::fromStdString("N/A"));
+        }
+        else
+        {
+            lineEdit_7->setText(QString::number(user->GetYear1()));
+            lineEdit_8->setText(QString::number(user->GetYear2()));
+        }
+        if (user->GetYear1() == 0)
+            lineEdit_7->setText("");
+        if (user->GetYear2() == 0)
+            lineEdit_8->setText("");
+        if (user->GetDrama())
+            checkBox->setChecked(true);
+        if (user->GetAction())
+            checkBox_2->setChecked(true);
+        if (user->GetSF())
+            checkBox_3->setChecked(true);
+        if (user->GetComedy())
+            checkBox_4->setChecked(true);
+        if (user->GetThriller())
+            checkBox_5->setChecked(true);
+        if (user->GetFantasy())
+            checkBox_6->setChecked(true);
+        if (user->GetAnimation())
+            checkBox_7->setChecked(true);
+        if (user->GetHorror())
+            checkBox_8->setChecked(true);
+        if (user->GetRomance())
+            checkBox_9->setChecked(true);
+        if (user->GetMistery())
+            checkBox_10->setChecked(true);
+        if (user->GetMovieSeries() == 0)
+        {
+            checkBox_12->setChecked(true);
+        }
+        if (user->GetMovieSeries() == 1)
+        {
+            checkBox_13->setChecked(true);
+        }
+        if (user->GetMovieSeries() == 2)
+        {
+            checkBox_12->setChecked(true);
+            checkBox_13->setChecked(true);
+        }
     }
-    else
-    {
-        lineEdit_7->setText(QString::number(user->GetYear1()));
-        lineEdit_8->setText(QString::number(user->GetYear2()));
-    }
-    if (user->GetYear1() == 0)
-        lineEdit_7->setText("");
-    if (user->GetYear2() == 0)
-        lineEdit_8->setText("");
-    if (user->GetDrama())
-        checkBox->setChecked(true);
-    if (user->GetAction())
-        checkBox_2->setChecked(true);
-    if (user->GetSF())
-        checkBox_3->setChecked(true);
-    if (user->GetComedy())
-        checkBox_4->setChecked(true);
-    if (user->GetThriller())
-        checkBox_5->setChecked(true);
-    if (user->GetFantasy())
-        checkBox_6->setChecked(true);
-    if (user->GetAnimation())
-        checkBox_7->setChecked(true);
-    if (user->GetHorror())
-        checkBox_8->setChecked(true);
-    if (user->GetRomance())
-        checkBox_9->setChecked(true);
-    if (user->GetMistery())
-        checkBox_10->setChecked(true);
-    if (user->GetMovieSeries() == 0)
-    {
-        checkBox_12->setChecked(true);
-    }
-    if (user->GetMovieSeries() == 1)
-    {
-        checkBox_13->setChecked(true);
-    }
-    if (user->GetMovieSeries() == 2)
-    {
-        checkBox_12->setChecked(true);
-        checkBox_13->setChecked(true);
-    }
-}
-
-User_Page_GUI::User_Page_GUI(QWidget* parent)
-{
-    setupUi();
-    showDetails();
 }
 User_Page_GUI::~User_Page_GUI()
 {}

@@ -13,8 +13,11 @@
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include <QMessageBox>
 #include "User.h"
 #include "Storages.h"
+#include "SeenMovies.h"
+#include "WishlistPage.h"
 
 class User_Page_GUI : public QMainWindow
 {
@@ -22,20 +25,21 @@ class User_Page_GUI : public QMainWindow
 
 public:
 
-	QPushButton* backToHomePage;
+    QPushButton* backToHomePage;
+    QPushButton* saveButton;
+    QPushButton* seenMovieButton;
+    QPushButton* wishMovieButton;
     QWidget* centralwidget;
     QGridLayout* gridLayout;
     QScrollArea* scrollArea;
     QWidget* scrollAreaWidgetContents;
     QGridLayout* gridLayout_2;
     QCheckBox* checkBox_6;
-    QPushButton* pushButton;
     QLabel* label_6;
     QCheckBox* checkBox_5;
     QCheckBox* checkBox_7;
     QCheckBox* checkBox;
     QCheckBox* checkBox_2;
-    QPushButton* pushButton_3;
     QCheckBox* checkBox_8;
     QCheckBox* checkBox_9;
     QCheckBox* checkBox_4;
@@ -68,17 +72,23 @@ public:
     QLabel* lineEdit_5;
     QCheckBox* checkBox_11;
     QCheckBox* checkBox_3;
-    QPushButton* pushButton_2;
     QMenuBar* menubar;
 
     void setupUi();
     void retranslateUi();
 
     void showDetails();
-    void onBackToMenuClicked();
+    void onSaveButtonClicked();
+    void onSeenButtonClicked();
+    void onWishButtonClicked();
+    void onBackToUserClickedSeen();
+    void onBackToUserClickedWish();
 
-    User_Page_GUI(QWidget* parent = nullptr);
+    User_Page_GUI(const User&& user, QWidget* parent = nullptr);
     ~User_Page_GUI();
+    
 private:
-
+    User m_currentUser;
+    SeenMovies* m_seenMovies;
+    WishlistPage* m_wishlistPage;
 };
