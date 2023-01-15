@@ -336,5 +336,30 @@ void Movie_Page_GUI::onAddToWishlistClicked()
     }
 }
 
+Seen Movie_Page_GUI::findSeenMovie(const Storages& storage)
+{
+	auto entries = storage.getStorage().get_all<Seen>(where(like((&Seen::m_userName), m_currentUser.GetUsername()) &&
+		(like((&Seen::m_movieTitle), m_movie.m_title))));
+    return entries[0];
+}
+
+void Movie_Page_GUI::onLikeClicked()
+{
+    Storages storage;
+    Seen updatedSeen = findSeenMovie(storage);
+    updatedSeen.m_like = true;
+	storage.UpdateSeen(updatedSeen);
+	QMessageBox::information(this, "Success", "Movie liked!");
+}
+
+void Movie_Page_GUI::onDislikeClicked()
+{
+    Storages storage;
+	Seen updatedSeen = findSeenMovie(storage);
+	updatedSeen.m_like = false;
+    storage.UpdateSeen(updatedSeen);
+    QMessageBox::information(this, "Success", "Movie disliked!");
+}
+
 Movie_Page_GUI::~Movie_Page_GUI()
 {}
