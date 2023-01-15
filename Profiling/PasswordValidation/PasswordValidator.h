@@ -18,8 +18,9 @@ namespace PasswordValidator {
 
     namespace CustomPasswordValidation {
 
-        bool verifyUpperCase(std::string password, bool ok)
+        bool verifyUpperCase(std::string password)
         {
+            bool ok = 0;
             for (int i = 0; i < password.size(); i++)
             {
                 if (isupper(password[i]))
@@ -28,8 +29,9 @@ namespace PasswordValidator {
             if (ok == false) return false;
         }
 
-        bool verifyLowerCase(std::string password, bool ok)
+        bool verifyLowerCase(std::string password)
         {
+            bool ok = 0;
             for (int i = 0; i < password.size(); i++)
             {
                 if (islower(password[i]))
@@ -38,8 +40,9 @@ namespace PasswordValidator {
             if (ok == 0) return false;
         }
 
-        bool verifyIsDigit(std::string password, bool ok)
+        bool verifyIsDigit(std::string password)
         {
+            bool ok = 0;
             for (int i = 0; i < password.size(); i++)
             {
                 if (isdigit(password[i]))
@@ -51,18 +54,18 @@ namespace PasswordValidator {
         bool passwordValidation(std::string password)
         {
             if (PasswordValidator::verifySize(password) == false) return false;
-            
-            bool ok = 0;
 
-            if (verifyUpperCase(password,ok) == false) return false;
+            // bool ok = 0;
 
-            if (verifyLowerCase(password,ok) == false) return false;
+            if (verifyUpperCase(password) == false) return false;
 
-            if (verifyIsDigit(password,ok) == false) return false;
+            if (verifyLowerCase(password) == false) return false;
+
+            if (verifyIsDigit(password) == false) return false;
 
             // std::cout << "The password is valid!\n";
             return true;
-            
+
         }
     }
 
