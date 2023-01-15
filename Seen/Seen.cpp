@@ -5,7 +5,12 @@ Seen::Seen() :
 {
 }
 
-Seen::Seen(int idSeen, std::string userName, std::string movieTitle, bool like) :
+Seen::Seen(const std::string& userName, const std::string& movieTitle, const bool& like) :
+	m_userName(userName), m_movieTitle(movieTitle), m_like(like)
+{
+}
+
+Seen::Seen(const int& idSeen, const std::string& userName, const std::string& movieTitle, const bool& like) :
 	m_idSeen(idSeen), m_userName(userName), m_movieTitle(movieTitle), m_like(like)
 {
 }

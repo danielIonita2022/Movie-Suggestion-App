@@ -5,7 +5,12 @@ Wishlist::Wishlist() :
 {
 }
 
-Wishlist::Wishlist(int idWishlist, std::string userName, std::string movieTitle) :
+Wishlist::Wishlist(const std::string& userName, const std::string& movieTitle) 
+	: m_userName(userName), m_movieTitle(movieTitle)
+{
+}
+
+Wishlist::Wishlist(const int& idWishlist, const std::string& userName, const std::string& movieTitle) :
 	m_idWishlist(idWishlist), m_userName(userName), m_movieTitle(movieTitle)
 {
 }

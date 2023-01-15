@@ -10,6 +10,7 @@ struct Wishlist
     std::string m_movieTitle;
 
     Wishlist();
-    Wishlist(int idWishlist, std::string m_userName, std::string movieTitle);
+    Wishlist(const std::string& userName, const std::string& movieTitle);
+    Wishlist(const int& idWishlist, const std::string& userName, const std::string& movieTitle);
 };
 

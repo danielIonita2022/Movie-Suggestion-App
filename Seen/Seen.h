@@ -11,6 +11,7 @@ struct Seen
     bool m_like;
 
     Seen();
-    Seen(int idSeen, std::string userName, std::string movieTitle, bool like);
+    Seen(const std::string& userName, const std::string& movieTitle, const bool& like);
+    Seen(const int& idSeen, const std::string& userName, const std::string& movieTitle, const bool& like);
 };
 
